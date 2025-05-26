@@ -1,0 +1,260 @@
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+main {
+    height: 100%;
+}
+
+main > div > * {
+    width: 500px;
+    margin: 0 auto;
+}
+
+.mainWrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 80px 0;
+}
+
+.mainWrapper > div > h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #111;
+}
+
+.logo {
+    margin-bottom: 30px;
+    width: max-content;
+}
+
+.whoareyou {
+    display: flex;
+}
+
+.whoareyou > button {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+.iam {
+    background-color: #E60012 !important;
+    color: white;
+    border: none;
+}
+
+.Form {
+    margin-top: 30px;
+}
+
+.paragraph {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.msgs {
+    font-size: 12px !important;
+}
+
+.general p {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.general input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    padding-left: 12px;
+    outline: none;
+}
+
+.rrnInput {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.emailBox {
+    display: flex;
+    gap: 8px;
+}
+
+.emailBox:nth-of-type(1) {
+    margin-bottom: 8px;
+}
+
+.codeBox {
+    display: none;
+    margin-top: 8px;
+}
+
+.mailBox button {
+    width: 140px;
+}
+
+.codeBox button {
+    width: 80px;
+}
+
+.emailBox button {
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+.addressBox input:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+.submitBox {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.submitBox button {
+    width: 100%;
+    height: 50px;
+    border: none;
+    background-color: #E60012;
+    color: white;
+}
+
+.sellerForm {
+    display: none;
+}
+
+.seller p {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.seller input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    padding-left: 12px;
+    outline: none;
+}
+
+.termsBox {
+    margin-top: 24px;
+}
+
+.terms {
+    display: flex;
+    align-items: center;
+}
+
+.terms a {
+    font-size: 14px;
+    color: #444;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.terms span {
+    font-size: 14px;
+    margin-right: 6px;
+}
+
+.required {
+    color: #E60012;
+    font-weight: 500;
+}
+
+.choice {
+    color: #999 !important;
+    font-weight: 500;
+}
+
+.termsCheck {
+    appearance: none;
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 8px;
+    margin-top: 6px;
+}
+
+.termsCheck:checked {
+    background-image: url("../../images/checkbox_on.svg");
+    background-color: #E60012;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+}
+
+.checkAll {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #111;
+}
+
+.termsCheckBox {
+    padding-left: 16px;
+}
+
+.hr {
+    border-bottom: 1px solid #ddd;
+    margin-top: 12px;
+    margin-bottom: 8px;
+}
+
+button {
+    cursor: pointer;
+}
+
+input:-webkit-autofill {
+    background-color: #fff !important;
+    color: #000 !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+#sendEmailBtn {
+    cursor: not-allowed;
+}
+
+.juminText {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 14px 0 8px 0;
+}
+
+.juminText div {
+    display: flex;
+    align-items: center;
+}
+
+.juminText p {
+    margin: 0;
+}
+
+.juminText span {
+    font-size: 11px;
+    color: #bbb;
+    margin-left: 6px;
+}

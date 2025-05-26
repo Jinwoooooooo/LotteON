@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/script/swiper3.js"></script>
+
+    <!-- Script -->
+    <script src="/script/search.js"></script>
+    <script src="/script/myPointComma.js"></script>
+
+    <link rel="stylesheet" href="/style/common/_footer.css">
+    <link rel="stylesheet" href="/style/common/_header.css">
+    <link rel="stylesheet" href="/style/mypage/myPages.css">
+
+    <!-- Favicon -->
+    <link rel="icon" sizes="32x32" th:href="@{'/images/config/' + ${config.favicon}}">
+
+    <title>쿠폰내역 : 롯데ON</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<div id="container">
+    <th:block th:include="/common/_header.html"/>
+    <main>
+        <div class="mainWrapper">
+            <div class="mainContainer">
+                <aside>
+                    <h2>마이롯데</h2>
+                    <th:block th:insert="~{/myPage/_side.html}"/>
+                </aside>
+                <section>
+                    <th:block th:insert="~{/myPage/_myInfo.html}"/>
+                    <div class="pointHistory var">
+                        <div class="varTitle">
+                            <h3>쿠폰 내역</h3>
+                        </div>
+                        <div class="orderHeader" th:if="${#lists.isEmpty(coupons)}">
+                            <div>
+                                <p>보유한 쿠폰이 없습니다.</p>
+                            </div>
+                        </div>
+                        <div class="couponList" th:unless="${#lists.isEmpty(coupons)}">
+                            <table>
+                                <tr>
+                                    <th>쿠폰명</th>
+                                    <th>할인 금액</th>
+                                    <th>상태</th>
+                                    <th>유효 기간</th>
+                                </tr>
+                                <tr th:each="coupon, i : ${coupons}">
+                                    <td>
+                                        <a th:href="@{/myPage/my_view_coupon(issuedNo=${coupon.issuedNo})}">
+                                            [[${coupon.couponName}]]
+                                        </a>
+                                    </td>
+                                    <td th:text="${coupon.benefit}"></td>
+                                    <td>
+                                        <span th:if="${coupon.status} == '미사용'">사용 가능</span>
+                                        <span th:if="${coupon.status} != '미사용'">[[${coupon.status}]]</span>
+                                    </td>
+                                    <td>
+                                        <span>[[${coupon.startDate}]]</span> ~
+                                        <span>[[${coupon.endDate}]]</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="pageBtn">
+                                <th:block th:if="${page?.end > 0}">
+                                    <th:block th:if="${page.prev}">
+                                        <a th:href="@{/myPage/my_coupon(pg=${page.start-2})}" class="prev">
+                                            <img src="/images/back-double.png">
+                                        </a>
+                                    </th:block>
+                                    <th:block th:if="${page.prev}">
+                                        <a th:href="@{/myPage/my_coupon(pg=${page.start-1})}" class="prev">
+                                            <img src="/images/back-single.png" class="single">
+                                        </a>
+                                    </th:block>
+
+                                    <th:block th:each="num:${#numbers.sequence(page.start, page.end)}">
+                                        <a th:href="@{/myPage/my_coupon(pg=${num})}" th:class="${num == page.pg} ? 'current' : 'num'">[[${num}]]</a>
+                                    </th:block>
+
+                                    <th:block th:if="${page.next}">
+                                        <a th:href="@{/myPage/my_coupon(pg=${page.end+1})}" class="next">
+                                            <img src="/images/right-single.png" class="single">
+                                        </a>
+                                    </th:block>
+                                    <th:block th:if="${page.next}">
+                                        <a th:href="@{/myPage/my_coupon(pg=${page.end+2})}" class="next">
+                                            <img src="/images/right-double.png">
+                                        </a>
+                                    </th:block>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/common/_footer.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

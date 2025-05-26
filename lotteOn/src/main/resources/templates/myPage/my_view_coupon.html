@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+    <link rel="stylesheet" href="/style/common/_header.css">
+    <link rel="stylesheet" href="/style/common/_footer.css">
+    <link rel="stylesheet" href="/style/mypage/myPages.css">
+
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/script/swiper3.js"></script>
+
+    <!-- Script -->
+    <script src="/script/search.js"></script>
+    <script src="/script/myPointComma.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" sizes="32x32" th:href="@{'/images/config/' + ${config.favicon}}">
+
+    <title>쿠폰 내역 : 롯데ON</title>
+</head>
+
+<body>
+<div id="container">
+    <th:block th:include="/common/_header.html"/>
+    <main>
+        <div class="mainWrapper">
+            <div class="mainContainer">
+                <aside>
+                    <h2>마이롯데</h2>
+                    <th:block th:insert="~{/myPage/_side.html}"/>
+                </aside>
+                <section>
+                    <th:block th:insert="~{/myPage/_myInfo.html}"/>
+                    <div class="myView var">
+                        <div class="varTitle">
+                            <h3>쿠폰 정보</h3>
+                        </div>
+                        <table>
+                            <tr>
+                                <td>쿠폰 코드</td>
+                                <td>[[${coupon.couponCode}]]</td>
+                                <td>쿠폰 종류</td>
+                                <td>[[${coupon.couponType}]]</td>
+                            </tr>
+                            <tr>
+                                <td>쿠폰명</td>
+                                <td>[[${coupon.couponName}]]</td>
+                                <td>발급처</td>
+                                <td>[[${coupon.companyName}]]</td>
+                            </tr>
+                            <tr>
+                                <td>사용 날짜</td>
+                                <td colspan="3">
+                                    [[${coupon.startDate}]]&nbsp; ~ &nbsp;[[${coupon.endDate}]]
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>쿠폰 정보</td>
+                                <td colspan="3">[[${coupon.etc}]]</td>
+                            </tr>
+                        </table>
+                        <div class="backToList">
+                            <a th:href="@{/myPage/my_coupon}" type="button">목록</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/common/_footer.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

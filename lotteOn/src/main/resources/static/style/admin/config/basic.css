@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    font-size: 16px;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,
+li {
+    list-style: none;
+}
+button {
+    all: unset;
+    cursor: pointer;
+}
+/* --------------------- main --------------------- */
+.adminMain {
+    width: 840px;
+    height: auto;
+    padding: 15px 60px 30px 0;
+}
+.mainTop {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #8a8a8a;
+    padding: 10px 0;
+}
+.mainTop h4 {
+    font-size: 25px;
+    font-weight: bold;
+}
+.mainTop > div {
+    margin-left: auto;
+    display: flex;
+}
+.mainTop span {
+    display: flex;
+    gap: 5px;
+}
+.mainTop span p {
+    font-weight: bold;
+    margin: 0;
+}
+h3 {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.versionInfo {
+    padding: 20px;
+}
+.site {
+    padding: 20px;
+}
+.logo {
+    padding: 20px;
+}
+.corporateInfo {
+    padding: 20px;
+}
+.customerService {
+    padding: 20px;
+}
+.copyRight {
+    padding: 20px;
+}
+table {
+    width: 100%;
+    height: auto;
+    border-top: 2px solid #dddddd;
+    border-bottom: 2px solid #dddddd;
+    border-collapse: collapse;
+}
+table tr {
+    border-bottom: 2px solid #dddddd;
+}
+table tr th {
+    width: 120px;
+    height: 45px;
+    background-color: #93b7d0;
+    color: white;
+}
+table tr td {
+    padding: 10px;
+}
+input {
+    padding: 10px;
+}
+.btnarea {
+    display: flex;
+    justify-content: flex-end;
+}
+button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* --------------------- main --------------------- */

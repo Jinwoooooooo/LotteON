@@ -1,0 +1,203 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    font-size: 16px;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,
+li {
+    list-style: none;
+}
+button {
+    all: unset;
+    cursor: pointer;
+}
+img {
+    width: 55px;
+    height: 55px;
+}
+/* --------------------- main --------------------- */
+.adminMain {
+    width: 100%;
+    height: auto;
+    margin: 15px 0px 30px 30px;
+}
+.mainTop {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #8a8a8a;
+    padding: 10px 0;
+    margin-bottom: 30px;
+}
+.mainTop h4 {
+    font-size: 25px;
+    font-weight: bold;
+}
+.mainTop div {
+    margin-left: auto;
+    display: flex;
+}
+.mainTop span {
+    display: flex;
+    gap: 5px;
+}
+.mainTop span p {
+    font-weight: bold;
+    margin: 0;
+}
+h3 {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+table {
+    width: 100%;
+    height: auto;
+    border-top: 2px solid #dddddd;
+    border-bottom: 2px solid #dddddd;
+    border-collapse: collapse;
+}
+table tr {
+    border-bottom: 2px solid #dddddd;
+}
+table tr th {
+    width: 120px;
+    height: 45px;
+    background-color: #93b7d0;
+    color: white;
+}
+table tr th a {
+    color: white;
+}
+table tr td {
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.changeBanner {
+    width: 100%;
+    height: auto;
+    background-color: #dddddd;
+    margin-bottom: 30px;
+    padding: 10px 10px 0 10px;
+    box-sizing: border-box;
+}
+.bannerTb {
+    border: none;
+}
+.bannerTb tr {
+    border: none;
+}
+.bannerTb tr th:nth-of-type(2) {
+    background-color: white;
+}
+.bannerTb tr th:nth-of-type(2) a {
+    color: black;
+}
+.bannerTb tr th:hover {
+    background-color: white;
+}
+.bannerTb tr th:hover a {
+    color: black;
+}
+.btnarea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btnarea button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+}
+.btnarea .delbutton {
+    background-color: #8a8a8a;
+}
+
+.bannerArea button {
+    line-height: 10px;
+}
+
+
+/* 모달 전체 화면 덮기 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* 반투명 배경 */
+}
+
+/* 모달 창 내부 */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 600px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* 닫기 버튼 */
+.modal .close {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.modal td {
+    text-align: left;
+}
+.modal .modalbtn {
+    display: flex;
+    justify-content: center;
+}
+.modal button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+.modal table {
+    width: 100%;
+    height: 500px;
+}
+.modal table .txt {
+    width: 100%;
+    height: 40px;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+input, select, textarea {
+    outline: none;
+}
+
+textarea {
+    padding-top: 10px;
+    resize: none;
+    height: 60px !important;
+}
+
+td * {
+    font-size: 13px;
+}
+/* --------------------- main --------------------- */

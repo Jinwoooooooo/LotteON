@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/script/swiper3.js"></script>
+
+    <!-- Script -->
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/script/daumPostCode.js"></script>
+    <script src="/script/autoPhoneNumber.js"></script>
+    <script src="/script/search.js"></script>
+    <script src="/script/myPointComma.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" sizes="32x32" th:href="@{'/images/config/' + ${config.favicon}}">
+
+    <link rel="stylesheet" href="/style/mypage/myPages.css">
+    <link rel="stylesheet" href="/style/common/_header.css">
+    <link rel="stylesheet" href="/style/common/_footer.css">
+    <title>마이페이지 : 롯데ON</title>
+</head>
+<body>
+<div id="container">
+    <th:block th:insert="~{/common/_header.html}"/>
+    <main>
+        <div class="mainWrapper">
+            <div class="mainContainer">
+                <aside>
+                    <h2>마이롯데</h2>
+                    <th:block th:insert="~{/myPage/_side.html}"/>
+                </aside>
+                <section>
+                    <th:block th:insert="~{/myPage/_myInfo.html}"/>
+                    <div class="profileManagement var">
+                        <div class="varTitle varTitle2">
+                            <h3>프로필 관리</h3>
+                        </div>
+                        <form id="leaveForm" th:action="@{/myPage/my_info/leave}" method="post" style="display: none;"></form>
+                        <form th:action="@{/myPage/my_info}" method="post" autocomplete="off" id="myProfile">
+                            <table>
+                                <tr>
+                                    <td>아이디</td>
+                                    <td>
+                                        <input type="text" name="id" th:value="${member.id}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>새 비밀번호</td>
+                                    <td>
+                                        <input type="password" class="password1" placeholder="새 비밀번호를 입력해 주세요">
+                                        <span class="passMsg1"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>새 비밀번호 확인</td>
+                                    <td>
+                                        <input type="password" class="password2" placeholder="새 비밀번호를 다시 입력해 주세요">
+                                        <input type="hidden" name="password" class="realPassword" th:value="${member.password}" data-original="${member.password}">
+                                        <span class="passMsg2"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>이름</td>
+                                    <td>
+                                        <input type="text" name="name" th:value="${member.name}" placeholder="이름을 입력해 주세요">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>이메일</td>
+                                    <td>
+                                        <input type="email" name="email" th:value="${member.email}" placeholder="이메일을 입력해 주세요">
+                                        <span></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>휴대폰</td>
+                                    <td>
+                                        <input type="text" name="hp" th:value="${member.hp}" placeholder="번호를 입력해 주세요">
+                                        <span></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>생년월일</td>
+                                    <td>
+                                        <input type="text" name="birthDate" th:value="${member.birthDate}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>주소</td>
+                                    <td>
+                                        <input type="text" id="postcode" name="zip" placeholder="우편번호 찾기" th:value="${member.zip}" onclick="DaumPostcode()" readonly>
+                                        <input type="text" id="address" name="addr1" placeholder="기본 주소 찾기" th:value="${member.addr1}" readonly>
+                                        <input type="text" id="detailAddress" name="addr2" placeholder="상세 주소를 입력해 주세요" th:value="${member.addr2}">
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="profileBtns">
+                                <button type="submit" class="modify">프로필 수정</button>
+                                <button type="button" class="leave">탈퇴하기</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/common/_footer.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+<script>
+    document.querySelector('.leave').addEventListener('click', function () {
+        if (confirm('정말 탈퇴하시겠습니까?')) {
+            document.getElementById('leaveForm').submit();
+        }
+    });
+</script>
+</body>
+</html>

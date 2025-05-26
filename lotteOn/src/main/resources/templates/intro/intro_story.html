@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회사소개 소식과이야기</title>
+    <link rel="stylesheet" href="/style/intro/intro_story.css">
+    <style>
+        .image {
+            width: 100%;    /* 필요에 따라 조절 */
+            height: 200px;  /* 원하는 높이 설정 */
+            overflow: hidden;
+        }
+
+        .fit-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;      /* 비율 유지하면서 div에 꽉 채움 */
+            object-position: top;   /* 이미지를 div의 '위쪽'부터 채움 */
+        }
+    </style>
+</head>
+<body>
+<th:block th:insert="~{/intro/_header.html}"/>
+
+    <main>
+        <div class="title">
+            <h1>롯데ON을 더 알고 싶다면!</h1>
+            <h3>우리의 다양한 이야기를 소개합니다</h3>
+        </div>
+        <section class="sub_menu">
+            <ul>
+                <li data-target="all" class="selected"><a href="#">전체보기</a></li>
+                <li data-target="culture"><a href="#">기업문화</a></li>
+                <li data-target="interview"><a href="#">인터뷰</a></li>
+                <li data-target="recruit"><a href="#">채용</a></li>
+                <li data-target="lotteOn"><a href="#">롯데ON</a></li>
+                <li data-target="press"><a href="#">보도자료</a></li>
+                <li data-target="esg"><a href="#">ESG</a></li>
+            </ul>
+        </section>
+        <section class="content">
+            <div class="tab_content" id="all">
+                <div th:each="story : ${story}">
+                    <div class="card">
+                        <div class="image">
+                            <img th:src="@{'/images/STORY/' + ${story.imageMain}}" alt="이미지" class="fit-image">
+                        </div>
+                        <div class="article">
+                            <a th:href="@{/intro/intro_story_view(storyNo=${story.storyNo})}">
+                                <h2>[[${story.title}]]</h2>
+                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 280px">
+                                    [[${story.content}]]
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 전체 끝 -->
+
+            <div class="tab_content" id="culture" style="display: none;">
+                <div th:each="story : ${story}" th:if="${story.cate} == 'culture'">
+                    <div class="card">
+                        <div class="image">
+                            <img th:src="@{'/images/STORY/' + ${story.imageMain}}" alt="이미지" class="fit-image">
+                        </div>
+                        <div class="article">
+                            <a th:href="@{/intro/intro_story_view(storyNo=${story.storyNo})}">
+                                <h2>[[${story.title}]]</h2>
+                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 280px">
+                                    [[${story.content}]]
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 문화 끝 -->
+
+            <div class="tab_content" id="interview" style="display: none;">
+                <div th:each="story : ${story}" th:if="${story.cate} == 'interview'">
+                    <div class="card">
+                        <div class="image">
+                            <img th:src="@{'/images/STORY/' + ${story.imageMain}}" alt="이미지" class="fit-image">
+                        </div>
+                        <div class="article">
+                            <a th:href="@{/intro/intro_story_view(storyNo=${story.storyNo})}">
+                                <h2>[[${story.title}]]</h2>
+                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 280px">
+                                    [[${story.content}]]
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 인터뷰 끝 -->
+
+            <div class="tab_content" id="recruit" style="display: none;">
+                <div th:each="story : ${story}" th:if="${story.cate} == 'recruit'">
+                    <div class="card">
+                        <div class="image">
+                            <img th:src="@{'/images/STORY/' + ${story.imageMain}}" alt="이미지" class="fit-image">
+                        </div>
+                        <div class="article">
+                            <a th:href="@{/intro/intro_story_view(storyNo=${story.storyNo})}">
+                                <h2>[[${story.title}]]</h2>
+                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 280px">
+                                    [[${story.content}]]
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 채용 끝 -->
+
+            <div class="tab_content" id="lotteOn" style="display: none;">
+                <div th:each="story : ${story}" th:if="${story.cate} == 'lotteOn'">
+                    <div class="card">
+                        <div class="image">
+                            <img th:src="@{'/images/STORY/' + ${story.imageMain}}" alt="이미지" class="fit-image">
+                        </div>
+                        <div class="article">
+                            <a th:href="@{/intro/intro_story_view(storyNo=${story.storyNo})}">
+                                <h2>[[${story.title}]]</h2>
+                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 280px">
+                                    [[${story.content}]]
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 롯데 끝 -->
+
+            <div class="tab_content" id="press" style="display: none;">
+                <div th:each="story : ${story}" th:if="${story.cate} == 'press'">
+                    <div class="card">
+                        <div class="image">
+                            <img th:src="@{'/images/STORY/' + ${story.imageMain}}" alt="이미지" class="fit-image">
+                        </div>
+                        <div class="article">
+                            <a th:href="@{/intro/intro_story_view(storyNo=${story.storyNo})}">
+                                <h2>[[${story.title}]]</h2>
+                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 280px">
+                                    [[${story.content}]]
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 보도자료 끝 -->
+
+            <div class="tab_content" id="esg" style="display: none;">
+                <div th:each="story : ${story}" th:if="${story.cate} == 'esg'">
+                    <div class="card">
+                        <div class="image">
+                            <img th:src="@{'/images/STORY/' + ${story.imageMain}}" alt="이미지" class="fit-image">
+                        </div>
+                        <div class="article">
+                            <a th:href="@{/intro/intro_story_view(storyNo=${story.storyNo})}">
+                                <h2>[[${story.title}]]</h2>
+                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 280px">
+                                    [[${story.content}]]
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ESG 끝 -->
+        </section>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const menuItems = document.querySelectorAll(".sub_menu li");
+                const contents = document.querySelectorAll(".tab_content");
+
+                menuItems.forEach(item => {
+                    item.addEventListener("click", function (e) {
+                        e.preventDefault();
+
+                        // 메뉴 선택 표시 초기화
+                        menuItems.forEach(i => i.classList.remove("selected"));
+                        this.classList.add("selected");
+
+                        // 콘텐츠 표시 전환
+                        const targetId = this.getAttribute("data-target");
+                        contents.forEach(content => {
+                            content.style.display = (content.id === targetId) ? "block" : "none";
+                        });
+                    });
+                });
+            });
+        </script>
+    </main>
+
+<th:block th:insert="~{/intro/_footer.html}"/>
+    
+</body>
+</html>

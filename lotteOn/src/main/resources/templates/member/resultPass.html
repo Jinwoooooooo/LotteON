@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+
+    <!-- Favicon -->
+    <link rel="icon" sizes="32x32" href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="/style/member/resultPass.css">
+
+    <!-- Script -->
+    <script src="/script/passMatch.js"></script>
+
+    <title>비밀번호 수정 : 롯데ON</title>
+</head>
+<body>
+<div id="wrapper">
+    <main>
+        <div class="mainWrapper">
+            <div>
+                <a th:href="@{/}">
+                    <img src="/images/logo_lotte-on.png" alt="로고" class="logo">
+                </a>
+                <h2>비밀번호 찾기</h2>
+                <p>비밀번호를 변경해주세요.</p>
+            </div>
+            <div class="mainContainer">
+                <form th:action="@{/member/changePassword}" method="post" id="modifyPass">
+                    <div>
+                        <p>아이디</p>
+                        <input type="text" name="id" th:value="${member.id}" readonly class="resultId">
+                    </div>
+                    <div>
+                        <p>새 비밀번호</p>
+                        <div class="illusion">
+                            <input type="password" name="password" placeholder="새 비밀번호 입력">
+                            <p class="pwdMsg msgs"></p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>새 비밀번호 확인</p>
+                        <div class="illusion">
+                            <input type="password" name="confirmPassword" placeholder="새 비밀번호 확인">
+                            <p class="pwdMsg2 msgs"></p>
+                        </div>
+                    </div>
+                    <div class="btnBox">
+                        <a th:href="@{/member/login}">
+                            <button class="cancelBtn">취소하기</button>
+                        </a>
+                        <a th:href="@{/member/login}">
+                            <button type="submit" class="changeBtn" disabled>변경하기</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

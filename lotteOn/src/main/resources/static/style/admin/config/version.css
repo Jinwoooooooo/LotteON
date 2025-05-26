@@ -1,0 +1,238 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    font-size: 16px;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,
+li {
+    list-style: none;
+}
+button {
+    all: unset;
+    cursor: pointer;
+}
+img {
+    width: 25px;
+    height: 25px;
+}
+/* --------------------- main --------------------- */
+.adminMain {
+    width: 840px;
+    height: auto;
+    padding: 15px 60px 30px 0;
+}
+.mainTop {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #8a8a8a;
+    padding: 10px 0;
+}
+.mainTop h4 {
+    font-size: 25px;
+    font-weight: bold;
+}
+.mainTop div {
+    margin-left: auto;
+    display: flex;
+}
+.mainTop span {
+    display: flex;
+    gap: 5px;
+}
+.mainTop span p {
+    font-weight: bold;
+    margin: 0;
+}
+h3 {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+table {
+    width: 100%;
+    height: auto;
+    border-top: 2px solid #dddddd;
+    border-bottom: 2px solid #dddddd;
+    border-collapse: collapse;
+}
+table tr {
+    border-bottom: 2px solid #dddddd;
+}
+table tr th {
+    width: 120px;
+    height: 45px;
+    background-color: #93b7d0;
+    color: white;
+}
+table tr th a {
+    color: white;
+}
+table tr td {
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+}
+
+
+.btnarea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btnarea button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+}
+.btnarea .delbutton {
+    background-color: #8a8a8a;
+}
+.bannerArea {
+    padding: 20px;
+}
+.bannerArea button {
+    line-height: 10px;
+}
+
+
+/* 모달 전체 화면 덮기 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* 반투명 배경 */
+}
+
+/* 모달 창 내부 */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 600px;
+    height: 600px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* 닫기 버튼 */
+.modal .close {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.modal table {
+    width: 100%;
+    display: block;
+    height: 500px;
+    overflow-y: auto;
+    border-bottom: none;
+}
+.modal table tr {
+    width: 100%;
+    height: 80px;
+}
+.modal table tr td {
+    width: 460px;
+}
+.modal table tr:nth-of-type(2) th {
+    height: 415px;
+}
+.modal table tr td {
+    font-size: 16px;
+    text-align: left;
+}
+.modal .modalbtn {
+    display: flex;
+    justify-content: center;
+}
+.modal button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+.modal table .vtxt {
+    width: 446px;
+    height: 30px;
+    padding-left: 10px;
+}
+.modal table .txt {
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+    resize: none;
+    box-sizing: border-box;
+}
+
+
+/* 모달 전체 화면 덮기 */
+.submodal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* 반투명 배경 */
+}
+/* 모달 창 내부 */
+.submodal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 600px;
+    height: 600px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+/* 닫기 버튼 */
+.submodal .close {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.submodal table {
+    width: 100%;
+    display: block;
+    height: 500px;
+    overflow-y: auto;
+    border-bottom: none;
+}
+.submodal table tr {
+    width: 100%;
+    height: 80px;
+}
+.submodal table tr td {
+    width: 460px;
+}
+.submodal table tr:nth-of-type(2) th {
+    height: 415px;
+}
+.submodal table tr td {
+    font-size: 16px;
+    text-align: left;
+}
+
+/* --------------------- main --------------------- */

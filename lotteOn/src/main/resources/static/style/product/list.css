@@ -1,0 +1,297 @@
+main > div > * {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+/* Swiper Custom */
+.swiper {
+    width: 1200px;
+    height: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 15px;
+}
+
+.swiper2 {
+    overflow: hidden;
+}
+
+.paging {
+    display: flex;
+    align-items: center;
+}
+
+.banners {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.bannerCard {
+    display: flex;
+    box-sizing: border-box;
+}
+
+.bannerCard:not(:last-child) {
+    margin-right: 20px;
+}
+
+.bannerCard > a {
+    position: relative;
+}
+
+.bannerCardText {
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    z-index: 100;
+}
+
+.bannerCardTitle {
+    font-size: 24px;
+    color: white;
+}
+
+.bannerCardDesc {
+    font-size: 14px;
+    color: white;
+    margin-top: 8px;
+}
+
+.bannerCard > a > img {
+    width: 386px;
+    height: 460px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.bannerCard > a:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 386px;
+    height: 460px;
+    border-radius: 15px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, .71) 100%);
+}
+
+.products {
+    margin-bottom: 50px;
+}
+
+.products:last-child {
+    margin-bottom: 100px;
+}
+
+.titleWrap {
+    padding: 30px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titleLarge {
+    font-size: 26px;
+    line-height: 32px;
+    color: #000;
+}
+
+.text {
+    display: flex;
+    column-gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    font-size: 16px;
+    color: #000;
+}
+
+.sortList {
+    margin-top: 30px;
+}
+
+.sortList > ul {
+    display: flex;
+}
+
+.sortList > ul li > a {
+    font-size: 14px;
+    color: #666;
+}
+
+.sortList > ul li {
+    position: relative;
+    padding-left: 22px;
+    padding-right: 6px;
+}
+
+.sortList > ul li:before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 6px;
+    width: 1px;
+    height: 12px;
+    background-color: #cecece;
+}
+
+.sortList > ul li:first-child::before {
+    content: none;
+}
+
+.selected {
+    color: #E60012 !important;
+    font-weight: 500;
+}
+
+.priceInfo {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.priceInfo > *:not(:last-child) {
+    margin-right: 8px;
+}
+
+.discount {
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 700;
+    color: #E60012;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.price > p {
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 700;
+    color: #000;
+}
+
+.price > span {
+    margin-left: 1px;
+    margin-top: 1px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+}
+
+.totalPrice {
+    display: flex;
+    margin-top: 4px;
+}
+
+del {
+    display: flex;
+    color: #757575;
+}
+
+.totalPrice > del > p {
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 500;
+    color: #757575;
+}
+
+.totalPrice > del > span {
+    margin-left: 1px;
+    margin-top: 1.5px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+
+.bold {
+    font-weight: 700;
+    color: #111;
+}
+
+.bold2 {
+    font-weight: 700;
+    color: #333;
+}
+
+.swiper2 .productItem {
+    display: flex;
+    justify-content: space-between;
+}
+
+.productItem {
+    display: grid;
+    grid-template-columns: 210px 210px 210px 210px 210px;
+    grid-template-rows: 380px;
+    column-gap: 37px;
+    row-gap: 50px;
+}
+
+.best10 {
+    border-radius: 0px;
+    margin: 0;
+}
+
+.best10 .productItem {
+    margin: 0;
+}
+
+.items {
+    width: 210px;
+    overflow: hidden;
+}
+
+.items > a > img {
+    width: 210px;
+    height: 210px;
+    object-fit: cover;
+}
+
+.descWrap {
+    padding-top: 10px;
+}
+
+.descWrap > * {
+    letter-spacing: normal;
+    line-height: 1.5;
+}
+
+.review {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.review > * {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+}
+
+.reviewInfo {
+    margin-right: 3px;
+}
+
+.starGrade {
+    content: "";
+    width: 15px;
+    height: 15px;
+    margin-right: 4px;
+    margin-bottom: 2px;
+    background: url(../../images/ico_stargrade_black.svg) no-repeat 50% 50%;
+}
+
+.titleWrap2 {
+    padding-top: 50px;
+    padding-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

@@ -1,0 +1,297 @@
+#mainTopBanner {
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    transition: height 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+    height: 90px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#mainTopBanner.hide-banner {
+    height: 0;
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+#mainTopBanner img {
+    width: 1200px;
+    height: 90px;
+    object-fit: cover;
+}
+
+
+.bannerClose {
+    position: absolute;
+    background-image: url("../images/closeBtn.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: inherit;
+    background-size: 12px 12px;
+    width: 12px;
+    height: 12px;
+    border: none;
+    cursor: pointer;
+    right: 10px;
+    top: 10px;
+}
+
+main > div > * {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.swiper {
+    width: 1200px;
+    height: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 15px;
+}
+
+.banners {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.bannerCard {
+    display: flex;
+    box-sizing: border-box;
+}
+
+.bannerCard:not(:last-child) {
+    margin-right: 20px;
+}
+
+.bannerCard > a {
+    position: relative;
+}
+
+.bannerCardText {
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    z-index: 100;
+}
+
+.bannerCardTitle {
+    font-size: 24px;
+    color: white;
+}
+
+.bannerCardDesc {
+    font-size: 14px;
+    color: white;
+    margin-top: 8px;
+}
+
+.bannerCard > a > img {
+    width: 386px;
+    height: 460px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.bannerCard > a:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 386px;
+    height: 460px;
+    border-radius: 15px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, .71) 100%);
+}
+
+.adContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.adImages {
+    display: flex;
+    justify-content: space-between;
+}
+
+.adImages > a > img {
+    width: 592.5px;
+    height: 296.25px;
+    border-radius: 15px;
+}
+
+.products {
+    margin-bottom: 50px;
+}
+
+.products:last-child {
+    margin-bottom: 100px;
+}
+
+.bestProduct {
+    margin-bottom: 100px !important;
+}
+
+.titleWrap {
+    padding: 30px 0;
+}
+
+.titleLarge {
+    font-size: 26px;
+    line-height: 32px;
+    color: #000;
+}
+
+.text {
+    margin-top: 8px;
+    font-size: 16px;
+    color: #000;
+}
+
+.priceInfo {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.priceInfo > *:not(:last-child) {
+    margin-right: 8px;
+}
+
+.discount {
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 700;
+    color: #E60012;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.price > p {
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 700;
+    color: #000;
+}
+
+.price > span {
+    margin-left: 1px;
+    margin-top: 1px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+}
+
+.totalPrice {
+    display: flex;
+    margin-top: 4px;
+}
+
+del {
+    display: flex;
+    color: #757575;
+}
+
+.totalPrice > del > p {
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 500;
+    color: #757575;
+}
+
+.totalPrice > del > span {
+    margin-left: 1px;
+    margin-top: 1px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+
+.bold {
+    font-weight: 700;
+    color: #111;
+}
+
+.bold2 {
+    font-weight: 700;
+    color: #333;
+}
+
+.productItem {
+    display: grid;
+    grid-template-columns: 265px 265px 265px 265px ;
+    grid-template-rows: 380px;
+    justify-content: space-between;
+    row-gap: 50px;
+}
+
+.productItem > .fourItems > a > img {
+    width: 265px;
+    height: 265px;
+    object-fit: cover;
+}
+
+.productItem > .threeItems > a > img {
+    width: 265px;
+    height: 265px;
+    object-fit: cover;
+}
+
+.descWrap {
+    padding-top: 16px;
+}
+
+.descWrap > * {
+    letter-spacing: normal;
+    line-height: 1.5;
+}
+
+.review {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.review > * {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+}
+
+.reviewInfo {
+    margin-right: 3px;
+}
+
+.starGrade {
+    content: "";
+    width: 15px;
+    height: 15px;
+    margin-right: 4px;
+    margin-bottom: 2px;
+    background: url(../images/ico_stargrade_black.svg) no-repeat 50% 50%;
+}
+
+.hidden-item {
+    display: none;
+}
+
+.more-button {
+    margin: 16px auto;
+    display: block;
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff7043;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}

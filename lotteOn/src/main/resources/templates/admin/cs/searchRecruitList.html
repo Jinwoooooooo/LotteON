@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자-채용하기 목록</title>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+    <!--Style-->
+    <link rel="stylesheet" href="/style/admin/cs/recruitList.css"/>
+    <link rel="stylesheet" href="/style/admin/header.css">
+    <link rel="stylesheet" href="/style/admin/footer.css">
+    <link rel="stylesheet" href="/style/admin/adminaside.css">
+    <!--JavaScript-->
+    <script src="/script/csRecruit.js"></script>
+    <script src="/script/banner.js"></script>
+    <script src="/script/aside.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="container">
+    <th:block th:insert="~{/admin/_adminHeader}"/>
+    <main>
+        <th:block th:insert="~{/admin/_adminAside}"/>
+        <div class="adminMain">
+            <div class="mainTop">
+                <h4>채용하기 목록</h4>
+                <div><span>HOME > 고객센터 > <p>채용하기</p></span></div>
+            </div>
+            <div class="shopArea">
+                <div class="searchArea">
+                    <form th:action="@{/admin/cs/recruitSearch}">
+                        <select name="searchType">
+                            <option>선택</option>
+                            <option value="cate" th:selected="${page.searchType == 'cate'}">채용부서</option>
+                            <option value="employType" th:selected="${page.searchType == 'employType'}">채용형태</option>
+                            <option value="title" th:selected="${page.searchType == 'title'}">제목</option>
+                        </select>
+                        <input type="text" name="keyword" placeholder="검색어 입력">
+                        <input type="submit" value="검색">
+                    </form>
+                </div>
+
+                <table>
+                    <tr>
+                        <th>번호</th>
+                        <th>채용부서</th>
+                        <th>경력사항</th>
+                        <th>채용형태</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>상태</th>
+                        <th>모집기간</th>
+                        <th>작성일</th>
+                        <th style="padding-right: 10px">관리</th>
+                    </tr>
+
+                    <tr th:each="recruit, i : ${page.dtoList}">
+                        <td>[[${page.startNo - i.index}]]</td>
+                        <td>[[${recruit.cate}]]</td>
+                        <td>[[${recruit.experience}]]</td>
+                        <td>[[${recruit.employType}]]</td>
+                        <td>[[${recruit.title}]]</td>
+                        <td>[[${recruit.writer}]]</td>
+                        <td>
+                            <span th:if="${recruit.endDate >= #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" style="font-size: 14px; color: green; font-weight: bold">모집중</span>
+                            <span th:if="${recruit.endDate < #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" style="font-size: 14px; color: red; font-weight: bold">마감</span>
+                        </td>
+                        <td>
+                            [[${recruit.startDate}]]<br> ~ [[${recruit.endDate}]]
+                        </td>
+                        <td>[[${recruit.regDate}]]</td>
+                        <td class="buttons">
+                            <form th:action="@{/admin/cs/recruitDelete}" method="post" onsubmit="return confirmDelete()">
+                                <button type="submit" class="deletebtn" style="font-size: 12px">삭제</button>
+                                <input type="hidden" name="recruitNo" th:value="${recruit.recruitNo}">
+                            </form>
+                            <script>
+                                function confirmDelete() {
+                                    // 삭제 확인 메시지
+                                    return confirm("삭제하시겠습니까?");
+                                }
+                            </script>
+                        </td>
+                    </tr>
+                </table>
+                <div class="btnarea">
+                    <div class="pageBtn">
+                        <th:block th:if="${page.end > 0}">
+                            <th:block th:if="${page.prev}">
+                                <a th:href="@{/admin/cs/recruitSearch(pg=${page.start-2}, searchType=${page.searchType}, keyword=${page.keyword})}" class="prev">
+                                    <img src="/images/back-double.png">
+                                </a>
+                            </th:block>
+                            <th:block th:if="${page.prev}">
+                                <a th:href="@{/admin/cs/recruitSearch(pg=${page.start-1}, searchType=${page.searchType}, keyword=${page.keyword})}" class="prev">
+                                    <img src="/images/back-single.png" class="single">
+                                </a>
+                            </th:block>
+
+                            <th:block th:each="num:${#numbers.sequence(page.start, page.end)}">
+                                <a th:href="@{/admin/cs/recruitSearch(pg=${num}, searchType=${page.searchType}, keyword=${page.keyword})}" th:class="${num == page.pg} ? 'current' : 'num'">[[${num}]]</a>
+                            </th:block>
+
+                            <th:block th:if="${page.next}">
+                                <a th:href="@{/admin/cs/recruitSearch(pg=${page.end+1}, searchType=${page.searchType}, keyword=${page.keyword})}" class="next">
+                                    <img src="/images/right-single.png" class="single">
+                                </a>
+                            </th:block>
+                            <th:block th:if="${page.next}">
+                                <a th:href="@{/admin/cs/recruitSearch(pg=${page.end+2}, searchType=${page.searchType}, keyword=${page.keyword})}" class="next">
+                                    <img src="/images/right-double.png">
+                                </a>
+                            </th:block>
+                        </th:block>
+                    </div>
+                    <button class="regbutton" type="submit">채용등록</button>
+                </div>
+            </div>
+        </div>
+        <div id="subModal" class="submodal">
+            <div class="submodal-content">
+                <span class="close">&times;</span>
+                <h3>채용등록</h3>
+                <form method="post" enctype="multipart/form-data" id="recruitWriteForm">
+                    <input type="hidden" name="writer" th:value="${#authentication.principal.member.id}"/>
+                    <div class="modalTable">
+                        <table class="fst">
+                            <tr>
+                                <th>제목</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="title" id="title" placeholder="제목 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>채용부서</th>
+                                <td>
+                                    <div>
+                                        <select name="cate" id="cate">
+                                            <option>채용부서 선택</option>
+                                            <option value="IT">IT</option>
+                                            <option value="마케팅">마케팅</option>
+                                            <option value="기획팀">기획팀</option>
+                                            <option value="영업팀">영업팀</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>경력사항</th>
+                                <td>
+                                    <div>
+                                        <select name="experience" id="experience">
+                                            <option>경력사항 선택</option>
+                                            <option value="경력무관">경력무관</option>
+                                            <option value="2">1~2년차</option>
+                                            <option value="3">2~3년차</option>
+                                            <option value="4">3~4년차</option>
+                                            <option value="5">4~5년차</option>
+                                            <option value="6">5년 이상</option>
+                                            <option value="10">10년 이상</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>채용형태</th>
+                                <td>
+                                    <div>
+                                        <select name="employType" id="employType">
+                                            <option>채용형태 선택</option>
+                                            <option value="정규직">정규직</option>
+                                            <option value="계약직">계약직</option>
+                                            <option value="아르바이트">아르바이트</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>모집기간</th>
+                                <td>
+                                    <div>
+                                        <input name="startDate" id="startDate" type="date">
+                                        <p>~</p>
+                                        <input name="endDate" id="endDate"  type="date">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>비고</th>
+                                <td>
+                                    <div>
+                                        <textarea name="etc" id="etc" placeholder="비고란" class="bgo" style="width: 650px;"></textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="modalbtn">
+                            <button>취소</button>
+                            <button>등록</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="regModal" class="regmodal">
+            <div class="regmodal-content">
+                <span class="close">&times;</span>
+                <h3>채용공고 수정</h3>
+                <form method="post" th:action="@{/admin/cs/recruitModify}" id="recruitUpdateForm">
+                    <div class="modalTable">
+                        <!-- 숨겨진 input으로 추가 -->
+                        <input type="hidden" id="recruitNo" name="recruitNo">
+                        <input type="hidden" id="regDate" name="regDate">
+                        <table class="fst">
+                            <tr>
+                                <th>제목</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="title" id="modifyTitle" placeholder="제목 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>채용부서</th>
+                                <td>
+                                    <div>
+                                        <select name="cate" id="modifyCate">
+                                            <option>채용부서 선택</option>
+                                            <option value="IT">IT</option>
+                                            <option value="마케팅">마케팅</option>
+                                            <option value="기획팀">기획팀</option>
+                                            <option value="영업팀">영업팀</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>경력사항</th>
+                                <td>
+                                    <div>
+                                        <select name="experience" id="modifyExperience">
+                                            <option>경력사항 선택</option>
+                                            <option value="경력무관">경력무관</option>
+                                            <option value="2">1~2년차</option>
+                                            <option value="3">2~3년차</option>
+                                            <option value="4">3~4년차</option>
+                                            <option value="5">4~5년차</option>
+                                            <option value="6">5년 이상</option>
+                                            <option value="10">10년 이상</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>채용형태</th>
+                                <td>
+                                    <div>
+                                        <select name="employType" id="modifyEmployType">
+                                            <option>채용형태 선택</option>
+                                            <option value="정규직">정규직</option>
+                                            <option value="계약직">계약직</option>
+                                            <option value="아르바이트">아르바이트</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>모집기간</th>
+                                <td>
+                                    <div>
+                                        <input name="startDate" id="modifyStartDate" type="date">
+                                        <p>~</p>
+                                        <input name="endDate" id="modifyEndDate"  type="date">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>비고</th>
+                                <td>
+                                    <div>
+                                        <textarea name="etc" id="modifyEtc" placeholder="비고란" class="bgo" style="width: 650px;"></textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="modalbtn">
+                            <button type="submit">수정하기</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/admin/_adminFooter.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

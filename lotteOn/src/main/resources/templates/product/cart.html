@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+    <!-- Favicon -->
+    <link rel="icon" sizes="32x32" href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png">
+    
+    <!-- Script -->
+    <!--<script src="/script/search.js"></script>-->
+    <!--<script src="/script/count.js"></script>-->
+    <script src="/script/cart.js"></script>
+
+    <!-- Style -->
+    <link rel="stylesheet" href="/style/product/cart.css"/>
+    <link rel="stylesheet" href="/style/common/_header.css"/>
+    <link rel="stylesheet" href="/style/common/_footer.css"/>
+    <title>롯데ON</title>
+</head>
+<body>
+    <div id="container">
+        <th:block th:include="/common/_header.html"/>
+        <main>
+            <div class="mainContainer">
+                <div class="cartWrapper">
+                    <h2>장바구니</h2>
+                    <div class="cartContainer">
+                        <div class="shoppingCart">
+                            <div class="selectBox">
+                                <div>
+                                    <input type="checkbox" class="checkAll">
+                                    <p>전체선택 1/1</p>
+                                </div>
+                                <button class="chooseRemove">선택삭제</button>
+                            </div>
+                            <div class="cartBox">
+                                <th:block th:each="item : ${cartList}">
+                                    <div class="cartItem">
+                                        <div class="itemHead">
+                                            <div class="align">
+                                                <input type="checkbox" class="checkOne" th:data-id="${item.id}" th:data-code="${item.productCode}">
+                                                <p th:text="${item.productName}">상품명</p>
+                                            </div>
+                                            <button class="remove" th:data-id="${item.id}"></button>
+                                        </div>
+                                        <div class="itemMain">
+                                            <a th:href="@{'/product/detail?productCode=' + ${item.productCode}}">
+                                                <img th:src="@{'/images/' + ${item.productImage}}" alt="상품사진">
+                                            </a>
+                                            <div class="itemSub">
+                                                <p class="itemOption" th:utext="${item.productOption}"></p>
+                                                <p class="itemPrice"
+                                                   th:attr="data-price=${item.price},data-discount=${item.discount},data-quantity=${item.quantity},data-delivery=${item.deliveryFee}"
+                                                   th:text="${#numbers.formatInteger(item.price * (100 - item.discount) / 100 * item.quantity, 3, 'COMMA')} + '원'">
+                                                </p>
+                                                <div class="control">
+                                                    <button class="minus" th:data-id="${item.id}">-</button>
+                                                    <div class="count" th:text="${item.quantity}">1</div>
+                                                    <button class="plus" th:data-id="${item.id}">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <div class="deliveryBox">
+                                <div class="deliveryHead">
+                                    <img src="/images/location.svg" alt="배송지 아이콘">
+                                    <h2>배송지</h2>
+                                </div>
+                                <div class="deliveryMain">
+                                    <p th:text="${fullAddress}"></p>
+                                </div>
+                            </div>
+                            <div class="priceInfoBox">
+                                <h2>결제금액</h2>
+                                <div class="priceInfos">
+                                    <p>상품금액</p>
+                                    <p class="f-w-600" th:text="${#numbers.formatInteger(totalProductPrice, 3, 'COMMA')} + '원'"></p>
+                                </div>
+                                <div class="priceInfos">
+                                    <p>상품할인금액</p>
+                                    <p class="themeColor f-w-600" th:text="'-' + ${#numbers.formatInteger(totalDiscount, 3, 'COMMA')} + '원'"></p>
+                                </div>
+                                <div class="priceInfos">
+                                    <p>배송비</p>
+                                    <p class="f-w-600" th:text="${#numbers.formatInteger(deliveryFee, 3, 'COMMA')} + '원'"></p>
+                                </div>
+                                <div class="totalPrice">
+                                    <p>결제예정금액</p>
+                                    <p th:text="${#numbers.formatInteger(totalOrderPrice, 3, 'COMMA')} + '원'"></p>
+                                </div>
+                            </div>
+                            <div class="order">
+                                <button class="orderBtn" type="button">
+                                    <span th:text="${#numbers.formatInteger(totalOrderPrice, 3, 'COMMA')} + '원 주문하기'"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <th:block th:replace="/common/_footer.html :: footerFragment(versionId=${selectedVersionId})"/>
+    </div>
+</body>
+</html>

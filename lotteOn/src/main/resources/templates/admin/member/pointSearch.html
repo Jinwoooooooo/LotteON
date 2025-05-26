@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자-회원 포인트</title>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+    <!--Style-->
+    <link rel="stylesheet" href="/style/admin/member/point.css"/>
+    <link rel="stylesheet" href="/style/admin/header.css">
+    <link rel="stylesheet" href="/style/admin/footer.css">
+    <link rel="stylesheet" href="/style/admin/adminaside.css">
+    <!--JavaScript-->
+    <script src="/script/banner.js"></script>
+    <script src="/script/aside.js"></script>
+</head>
+<body>
+<div id="container">
+    <th:block th:include="/admin/_adminHeader"/>
+    <main>
+        <th:block th:include="/admin/_adminAside"/>
+        <div class="adminMain">
+            <div class="mainTop">
+                <h4>포인트관리</h4>
+                <div><span>HOME > 회원관리 > <p>포인트관리</p></span></div>
+            </div>
+            <div class="shopArea">
+                <div class="searchArea">
+                    <form th:action="@{/admin/member/pointSearch}">
+                        <select name="searchType">
+                            <option>선택</option>
+                            <option value="memberId">아이디</option>
+                            <option value="name">이름</option>
+                            <option value="giveContent">지급내용</option>
+                        </select>
+                        <input type="text" name="keyword" placeholder="검색어 입력">
+                        <input type="submit" value="검색" style="border: 1px solid #3f97f6 ; background-color: #3f97f6; color: white">
+                    </form>
+                </div>
+                <table>
+                    <tr>
+                        <th>번호</th>
+                        <th>아이디</th>
+                        <th>이름</th>
+                        <th>지급 포인트</th>
+                        <th>잔여 포인트</th>
+                        <th>지급 내용</th>
+                        <th>지급 날짜</th>
+                    </tr>
+                    <tr th:each="point, i : ${page.dtoList}" th:if="${#lists.size(point) > 0}">
+                        <td>[[${point.pointNo}]]</td>
+                        <td>[[${point.memberId}]]</td>
+                        <td>[[${point.name}]]</td>
+                        <td>[[${point.givePoint}]]</td>
+                        <td>[[${point.totalPoint}]]</td>
+                        <td>[[${point.giveContent}]]</td>
+                        <td>[[${point.giveDate}]]</td>
+                    </tr>
+                    <!-- 검색 결과가 없을 경우 -->
+                    <tr th:if="${#lists.isEmpty(point)}">
+                        <td colspan="11" style="text-align: center; font-weight: bold; color: gray">
+                            검색 결과가 없습니다.
+                        </td>
+                    </tr>
+                </table>
+                <div class="btnarea">
+                    <div class="pageBtn">
+                        <th:block th:if="${page.end > 0}">
+                            <th:block th:if="${page.prev}">
+                                <a th:href="@{/admin/member/pointSearch(pg=${page.start-2}, searchType=${page.searchType}, keyword=${page.keyword})}" class="prev">
+                                    <img src="/images/back-double.png">
+                                </a>
+                            </th:block>
+                            <th:block th:if="${page.prev}">
+                                <a th:href="@{/admin/member/pointSearch(pg=${page.start-1}, searchType=${page.searchType}, keyword=${page.keyword})}" class="prev">
+                                    <img src="/images/back-single.png" class="single">
+                                </a>
+                            </th:block>
+
+                            <th:block th:each="num:${#numbers.sequence(page.start, page.end)}">
+                                <a th:href="@{/admin/member/pointSearch(pg=${num}, searchType=${page.searchType}, keyword=${page.keyword})}" th:class="${num == page.pg} ? 'current' : 'num'">[[${num}]]</a>
+                            </th:block>
+
+                            <th:block th:if="${page.next}">
+                                <a th:href="@{/admin/member/pointSearch(pg=${page.end+1}, searchType=${page.searchType}, keyword=${page.keyword})}" class="next">
+                                    <img src="/images/right-single.png" class="single">
+                                </a>
+                            </th:block>
+                            <th:block th:if="${page.next}">
+                                <a th:href="@{/admin/member/pointSearch(pg=${page.end+2}, searchType=${page.searchType}, keyword=${page.keyword})}" class="next">
+                                    <img src="/images/right-double.png">
+                                </a>
+                            </th:block>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/admin/_adminFooter.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

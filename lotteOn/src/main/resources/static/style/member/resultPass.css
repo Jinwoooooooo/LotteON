@@ -1,0 +1,125 @@
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+main {
+    height: 100%;
+}
+
+main > div > * {
+    width: 500px;
+    margin: 0 auto;
+}
+
+.mainWrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 160px;
+}
+
+.mainWrapper > div > h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 23.24px 0 0 0;
+    color: #111;
+}
+
+.mainWrapper > div > p {
+    font-size: 14px;
+    color: #777;
+    margin-top: 8px;
+}
+
+.logo {
+    margin-bottom: 30px;
+    width: max-content;
+}
+
+.mainContainer {
+    margin-top: 20px;
+}
+
+button {
+    width: 100%;
+    height: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.gotoLogin {
+    background-color: #E60012;
+    margin-top: 20px;
+}
+
+.btnBox {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.btnBox a {
+    width: 100%;
+}
+
+.cancelBtn {
+    color: #333;
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+.changeBtn {
+    background-color: #E60012;
+}
+
+input {
+    height: 50px;
+    padding-left: 12px;
+    outline: none;
+    width: 100%;
+    border: none;
+    box-sizing: border-box;
+}
+
+input::placeholder {
+    font-size: 14px;
+    font-weight: 400;
+    color: #aaa;
+}
+
+#modifyPass > div > p {
+    font-size: 14px;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.illusion {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    width: 100%;
+    height: 50px;
+}
+
+.illusion > * {
+    width: 50%;
+}
+
+.illusion > p {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+}
+.resultId {
+    cursor: default;
+    border: 1px solid #ddd;
+}
+
+

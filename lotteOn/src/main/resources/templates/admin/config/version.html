@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>환경설정-버전관리</title>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+    <!--Style-->
+    <link rel="stylesheet" href="/style/admin/config/version.css"/>
+    <link rel="stylesheet" href="/style/admin/header.css">
+    <link rel="stylesheet" href="/style/admin/footer.css">
+    <link rel="stylesheet" href="/style/admin/adminaside.css">
+    <!--JavaScript-->
+    <script src="/script/banner.js"></script>
+    <script src="/script/pickVersion.js"></script>
+    <script src="/script/deleteVersion.js"></script>
+    <script src="/script/aside.js"></script>
+</head>
+<body>
+<div id="container">
+    <th:block th:include="/admin/_adminHeader"/>
+    <main>
+        <th:block th:include="/admin/_adminAside"/>
+        <div class="adminMain">
+            <div class="mainTop">
+                <h4>버전관리</h4>
+                <div><span>HOME > 환경설정 > <p>버전관리</p></span></div>
+            </div>
+            <div class="bannerArea">
+                <h3>메인 상단배너</h3>
+                <table>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>번호</th>
+                        <th>버전</th>
+                        <th>작성자</th>
+                        <th>등록일시</th>
+                        <th>변경내역</th>
+                    </tr>
+                    <tr th:each="version, i : ${versionList}"
+                        th:attr="data-versionid=${version.versionId},
+                                 data-versioncontent=${version.versionContent}">
+                       <td><input type="checkbox" class="delete-check"></td>
+                       <td th:text="${i.index + 1}"></td>
+                       <td th:text="${version.versionId}"></td>
+                       <td th:text="${version.writer}"></td>
+                       <td th:text="${version.formattedRegDate}"></td>
+                       <td>
+                           <button type="button" class="submitbtn">[ 확인 ]</button>
+                       </td>
+                    </tr>
+                </table>
+                <div class="btnarea">
+                    <button type="button" id="deleteBtn" class="delbutton">선택삭제</button>
+                    <button class="regbutton">등록</button>
+                </div>
+            </div>
+        </div>
+        <div id="bannerModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>버전등록</h3>
+                <form th:action="@{/admin/config/version}" method="post">
+                    <table>
+                        <tr>
+                            <th>버전</th>
+                            <td><input type="text" name="versionId" placeholder="버전 입력" class="vtxt"></td>
+                        </tr>
+                        <tr>
+                            <th>변경내역</th>
+                            <td><textarea name="versionContent" placeholder="변경내역 입력" class="txt"></textarea></td>
+                        </tr>
+                    </table>
+                    <input type="hidden" name="writer" id="writer" th:value="${username}">
+                    <div class="modalbtn">
+                        <button type="submit">등록하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="subModal" class="submodal">
+            <div class="submodal-content">
+                <span class="close">&times;</span>
+                <h3>버전확인</h3>
+                <form>
+                    <table>
+                        <tr>
+                            <th>버전</th>
+                            <td class="thisVersion"></td>
+                        </tr>
+                        <tr>
+                            <th>변경내역</th>
+                            <td class="thisContent"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/admin/_adminFooter.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

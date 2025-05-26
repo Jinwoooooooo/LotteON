@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자-주문현황</title>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+    <!--Style-->
+    <link rel="stylesheet" href="/style/admin/order/list.css"/>
+    <link rel="stylesheet" href="/style/admin/header.css">
+    <link rel="stylesheet" href="/style/admin/footer.css">
+    <link rel="stylesheet" href="/style/admin/adminaside.css">
+
+    <!--JavaScript-->
+    <script src="/script/aside.js"></script>
+
+</head>
+<body>
+<div id="container">
+    <th:block th:include="/admin/_adminHeader"/>
+    <main>
+        <th:block th:include="/admin/_adminAside"/>
+        <div class="adminMain">
+            <div class="mainTop">
+                <h4>주문현황</h4>
+                <div><span>HOME > 주문관리 > <p>주문현황</p></span></div>
+            </div>
+            <div class="shopArea">
+                <form>
+                    <div class="searchArea">
+                        <select name="searchType">
+                            <option>선택</option>
+                            <option value="orderCode">주문번호</option>
+                            <option value="memberId">주문자</option>
+                            <option value="name">주문자명</option>
+                            <option value="payment">결제수단</option>
+                            <option value="status">주문상태</option>
+                        </select>
+                        <input type="text" name="keyword" placeholder="검색어 입력">
+                        <button type="submit">검색</button>
+                    </div>
+                </form>
+                <p style="font-weight: 600; margin-bottom: 10px"> 주문 번호 클릭 시 상세보기 창 출력 </p>
+                <table>
+                    <tr>
+                        <th>주문번호</th>
+                        <th>주문자</th>
+                        <th>주문자명</th>
+                        <th>상품명</th>
+                        <th>주문건수</th>
+                        <th>결제금액</th>
+                        <th>결제수단</th>
+                        <th>주문상태</th>
+                        <th>주문일</th>
+                        <th>배송</th>
+                    </tr>
+                    <tr th:each = "order, i : ${order}" th:unless="${#lists.isEmpty(order)}">
+                        <td>
+                            <button type="submit"
+                                    class="orderinfo"
+                                    th:onclick="'orderinfoPopup(' + ${i.index} + ')'"
+                                    th:text="${#strings.length(order.orderCode) > 10} ? ${order.orderCode.substring(0, 15)} + '...' : ${order.orderCode}">
+                            </button>
+                        </td>
+                        <td th:text="${order.memberId}">abc123</td>
+                        <td th:text="${order.memberName}">정상수</td>
+                        <td th:text="${order.displayProductName}">도리토스</td>
+                        <td th:text="${order.quantity}">100</td>
+                        <td th:text="${order.actualMoney}">170,000</td>
+                        <td th:text="${order.payment}">신용카드</td>
+                        <td th:text="${#strings.isEmpty(order.confirm) ? order.orderStatus : order.confirm}">결제완료</td>
+                        <td th:text="${order.orderDate}"></td>
+                        <td>
+                            <button type="button" class="submitbtn"
+                                    th:onclick="'submitPopup(' + ${i.index} + ')'"
+                                    th:disabled="${order.confirm == '구매 확정'
+                                                 or order.confirm == '배송준비중'
+                                                 or order.confirm == '배송완료'
+                                                 or order.refundStatus == '반품처리 완료'
+                                                 or order.refundStatus == '교환처리 완료'}"
+                                    th:classappend="${order.confirm == '구매 확정'
+                                                or order.confirm == '배송준비중'
+                                                or order.confirm == '배송완료'
+                                                or order.refundStatus == '반품처리 완료'
+                                                or order.refundStatus == '교환처리 완료'} ? ' disabled-btn'"
+                                    th:text="${order.confirm == '배송준비중'} ? '입력완료' : '배송하기'">
+                                배송하기
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+                <div class="btnarea">
+                    <div class="pageBtn">
+                        <th:block th:if="${page?.end > 0}">
+                            <th:block th:if="${page.prev}">
+                                <a th:href="@{/admin/order/list(pg=${page.start-2}, searchType=${page.searchType}, keyword=${page.keyword})}" class="prev">
+                                    <img src="/images/back-double.png">
+                                </a>
+                            </th:block>
+                            <th:block th:if="${page.prev}">
+                                <a th:href="@{/admin/order/list(pg=${page.start-1}, searchType=${page.searchType}, keyword=${page.keyword})}" class="prev">
+                                    <img src="/images/back-single.png" class="single">
+                                </a>
+                            </th:block>
+
+                            <th:block th:each="num:${#numbers.sequence(page.start, page.end)}">
+                                <a th:href="@{/admin/order/list(pg=${num}, searchType=${page.searchType}, keyword=${page.keyword})}" th:class="${num == page.pg} ? 'current' : 'num'">[[${num}]]</a>
+                            </th:block>
+
+                            <th:block th:if="${page.next}">
+                                <a th:href="@{/admin/order/list(pg=${page.end+1}, searchType=${page.searchType}, keyword=${page.keyword})}" class="next">
+                                    <img src="/images/right-single.png" class="single">
+                                </a>
+                            </th:block>
+                            <th:block th:if="${page.next}">
+                                <a th:href="@{/admin/order/list(pg=${page.end+2}, searchType=${page.searchType}, keyword=${page.keyword})}" class="next">
+                                    <img src="/images/right-double.png">
+                                </a>
+                            </th:block>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--주문상세-->
+        <div th:each="order, i : ${order}" th:id="'orderinfoPopup-' + ${i.index}" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modaltop">
+                    <h3>주문상세</h3>
+                </div>
+                <form>
+                    <div class="modalTable">
+                        <div class="infotop">
+                            <h2>상품정보</h2>
+                        </div>
+                        <table>
+                            <tr>
+                                <th>상품이미지</th>
+                                <th>상품번호</th>
+                                <th>상품명</th>
+                                <th>판매자</th>
+                                <th>가격</th>
+                                <th>할인</th>
+                                <th>배송비</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img th:src="@{'/images/' + ${order.imageList}}">
+                                </td>
+                                <td th:text="${order.productCode}"></td>
+                                <td th:text="${order.productName}">도리토스</td>
+                                <td th:text="${order.companyName}"></td>
+                                <td th:text="${order.price}">170,000</td>
+                                <td th:text="${order.discount}">-70,000</td>
+                                <td th:text="${order.fee}">100</td>
+                            </tr>
+
+                        </table>
+                        <div class="total">
+                            <table>
+                                <tr>
+                                    <td>총 구매수량</td>
+                                    <td th:text="${order.quantity} + ' 개'">100</td>
+                                </tr>
+                                <tr>
+                                    <td>총 상품금액</td>
+                                    <td th:text="${order.totalPrice} + '원'">340,000</td>
+                                </tr>
+                                <tr>
+                                    <td>총 할인금액</td>
+                                    <td>-[[${order.discount}]]원</td>
+                                </tr>
+                                <tr>
+                                    <td>배송비</td>
+                                    <td th:text="${order.fee} + '원'">200</td>
+                                </tr>
+                                <tr>
+                                    <td>총 결제금액</td>
+                                    <td th:text="${order.actualMoney} + '원'">200,200</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="info">
+                            <div class="infotop">
+                                <h2>결제정보</h2>
+                            </div>
+                            <table>
+                                <tr>
+                                    <th>주문번호</th>
+                                    <td th:text="${order.orderCode}">10121012100</td>
+                                </tr>
+                                <tr>
+                                    <th>결제방법</th>
+                                    <td th:text="${order.payment}">신용카드</td>
+                                </tr>
+                                <tr>
+                                    <th>주문자</th>
+                                    <td th:text="${order.memberName}">정상수</td>
+                                </tr>
+                                <tr>
+                                    <th>연락처</th>
+                                    <td th:text="${order.hp}">010-1234-1234</td>
+                                </tr>
+                                <tr>
+                                    <th>결제상태</th>
+                                    <td th:text="${order.orderStatus}">결제완료</td>
+                                    <th>총 결제금액</th>
+                                    <td th:text="${order.actualMoney} + '원'">200,200</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="info">
+                            <div class="infotop">
+                                <h2>배송정보</h2>
+                            </div>
+                            <table>
+                                <tr>
+                                    <th>수취인</th>
+                                    <td th:text="${order.receiver}">정상수</td>
+                                </tr>
+                                <tr>
+                                    <th>연락처</th>
+                                    <td th:text="${order.hp}">010-1234-1234</td>
+                                </tr>
+                                <tr>
+                                    <th>배송지 주소</th>
+                                    <td th:text="${order.delivery}">부산 부산진구</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--배송지입력-->
+        <div th:each="order, i : ${order}" th:id="'submitPopup-' + ${i.index}" class="modal">
+            <div class="submodal-content">
+                <span class="close">&times;</span>
+                <div class="modaltop">
+                    <h3>배송입력</h3>
+                </div>
+                <form th:action="@{/admin/order/post}" method="post">
+                    <div class="modalTable">
+                        <table>
+                            <tr>
+                                <th>주문번호</th>
+                                <td>
+                                    <div>
+                                        <input type="text" readonly name="orderCode" th:value="${order.orderCode}" placeholder="10101010101">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>수령인</th>
+                                <td>
+                                    <div>
+                                        <input type="text" readonly name="receiver" th:value="${order.receiver}">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>주소</th>
+                                <td>
+                                    <input type="text" readonly name="addr" th:value="${order.delivery}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>택배사</th>
+                                <td>
+                                    <div>
+                                        <select name="post">
+                                            <option>택배사 선택</option>
+                                            <option value="CJ대한통운">CJ대한통운</option>
+                                            <option value="롯데택배">롯데택배</option>
+                                            <option value="한진택배">한진택배</option>
+                                            <option value="우체국택배">우체국택배</option>
+                                            <option value="로젠택배">로젠택배</option>
+                                            <option value="경동택배">경동택배</option>
+                                            <option value="대신택배">대신택배</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>기타</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="etc" class="subinfo" th:value="${order.etc}">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modalbtn">
+                        <button type="submit">등록하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script th:inline="javascript">
+        //상품정보열기
+        function orderinfoPopup(index) {
+            document.getElementById("orderinfoPopup-" + index).style.display = "block";
+        }
+        //배송정보입력
+        function submitPopup(index) {
+            document.getElementById("submitPopup-" + index).style.display = "block";
+        }
+
+        // 닫기
+        document.querySelectorAll('.modal .close').forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.closest('.modal').style.display = 'none';
+            });
+        });
+    </script>
+    <th:block th:replace="/admin/_adminFooter.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

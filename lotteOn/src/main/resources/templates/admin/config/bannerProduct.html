@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>환경설정-배너관리</title>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+    <!--Style-->
+    <link rel="stylesheet" href="/style/admin/config/bannerProduct.css"/>
+    <link rel="stylesheet" href="/style/admin/header.css">
+    <link rel="stylesheet" href="/style/admin/footer.css">
+    <link rel="stylesheet" href="/style/admin/adminaside.css">
+
+    <!--JavaScript-->
+    <script src="/script/banner.js"></script>
+    <script src="/script/aside.js"></script>
+    <script src="/script/deleteBanner.js"></script>
+
+</head>
+<body>
+<div id="container">
+    <th:block th:include="/admin/_adminHeader"/>
+    <main>
+        <th:block th:include="/admin/_adminAside"/>
+        <div class="adminMain">
+            <div class="mainTop">
+                <h4>배너관리</h4>
+                <div><span>HOME > 환경설정 > <p>배너관리</p></span></div>
+            </div>
+            <div class="changeBanner">
+                <table class="bannerTb">
+                    <tr>
+                        <th><a th:href="@{/admin/config/banner}">메인상단배너</a></th>
+                        <th><a th:href="@{/admin/config/bannerMainsl}">메인슬라이더배너</a></th>
+                        <th><a th:href="@{/admin/config/bannerProduct}">상품 상세보기 배너</a></th>
+                        <th><a th:href="@{/admin/config/bannerLogin}">회원로그인 배너</a></th>
+                        <th><a th:href="@{/admin/config/bannerMypage}">마이페이지 배너</a></th>
+                    </tr>
+                </table>
+            </div>
+            <div class="bannerArea">
+                <h3>상품 상세보기 배너</h3>
+                <table>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>번호</th>
+                        <th>이미지</th>
+                        <th>배너정보</th>
+                        <th>배너위치</th>
+                        <th>시작일</th>
+                        <th>종료일</th>
+                        <th>시작시간</th>
+                        <th>종료시간</th>
+                        <th>관리</th>
+                    </tr>
+                    <tr th:each="banner, iterStat : ${banners}" th:if="${banner.location == 'PRODUCT'}" th:data-id="${banner.id}">
+                        <td><input type="checkbox" class="delete-check" th:value="${banner.id}"></td>
+                        <td th:text="${iterStat.count}">1</td>
+                        <td><img th:src="@{${banner.imagePath}}" width="100"></td>
+                        <td>
+                            <span th:text="${banner.name}"></span><br>
+                            <span th:text="${banner.size}"></span><br>
+                            <span th:text="${banner.backgroundColor}"></span><br>
+                            <a th:href="${banner.link}">배너링크</a>
+                        </td>
+                        <td th:text="${banner.location}"></td>
+                        <td th:text="${banner.startDate}"></td>
+                        <td th:text="${banner.endDate}"></td>
+                        <td th:text="${banner.startTime}"></td>
+                        <td th:text="${banner.endTime}"></td>
+                        <td>
+                            <form th:action="@{/banners/activate/{id}(id=${banner.id})}" method="post">
+                                <button type="submit" th:if="${!banner.active}">[ 활성 ]</button>
+                            </form>
+                            <form th:action="@{/banners/deactivate/{id}(id=${banner.id})}" method="post">
+                                <button type="submit" th:if="${banner.active}">[ 비활성 ]</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+                <div class="btnarea">
+                    <button class="delbutton">선택삭제</button>
+                    <button class="regbutton">배너등록</button>
+                </div>
+            </div>
+        </div>
+        <div id="bannerModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>배너 등록</h3>
+                <form th:action="@{/admin/config/banners}" method="post" enctype="multipart/form-data">
+                    <table>
+                        <tr>
+                            <th>배너이름</th>
+                            <td><input type="text" name="name" placeholder="배너명 입력" class="txt"></td>
+                        </tr>
+                        <tr>
+                            <th>배너크기</th>
+                            <td><input type="text" name="size" placeholder="배너크기 입력" class="txt"></td>
+                        </tr>
+                        <tr>
+                            <th>배경색</th>
+                            <td><input type="text" name="backgroundColor" placeholder="배너배경색 입력" class="txt"></td>
+                        </tr>
+                        <tr>
+                            <th>배너링크</th>
+                            <td><input type="text" name="link" placeholder="배너링크 입력" class="txt"></td>
+                        </tr>
+                        <tr>
+                            <th>배너위치</th>
+                            <td>
+                                <select name="location">
+                                    <option>선택</option>
+                                    <option>PRODUCT</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>노출날짜</th>
+                            <td><input type="date" name="startDate"> ~ <input type="date" name="endDate"></td>
+                        </tr>
+                        <tr>
+                            <th>노출시간</th>
+                            <td><input type="time" name="startTime"> ~ <input type="time" name="endTime"></td>
+                        </tr>
+                        <tr>
+                            <th>배너파일</th>
+                            <td><input type="file" name="imageFile"></td>
+                        </tr>
+                    </table>
+                    <div class="modalbtn">
+                        <button>등록하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/admin/_adminFooter.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

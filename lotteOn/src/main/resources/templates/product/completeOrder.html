@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+
+    <!-- Favicon -->
+    <link rel="icon" sizes="32x32" href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png">
+
+    <!-- Daum Address -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <!-- Script -->
+    <script src="/script/search.js"></script>
+
+    <!-- Style -->
+    <link rel="stylesheet" href="/style/product/completeOrder.css"/>
+    <link rel="stylesheet" href="/style/common/_header.css"/>
+    <link rel="stylesheet" href="/style/common/_footer.css"/>
+    <title>롯데ON</title>
+</head>
+<body>
+<div id="container">
+    <th:block th:include="/common/_header.html"/>
+    <main>
+        <div class="mainContainer">
+            <div class="paymentWrapper">
+                <h2>주문완료</h2>
+                <div class="paymentContainer">
+                    <h3 class="sectionTitle">주문상품</h3>
+                    <div class="productSectionWrapper">
+                        <div class="productSectionContainer">
+                            <th:block th:each="item : ${items}">
+                                <div class="productSection">
+                                    <img th:src="@{'/images/' + ${item.product.imageList}}" alt="상품사진">
+                                    <div class="productInfo">
+                                        <p class="productTitle" th:text="${item.product.name}"></p>
+                                        <div class="productPrice">
+                                            <span th:text="${#numbers.formatInteger(item.total, 3, 'COMMA')} + '원'"></span>
+                                            <del th:text="${#numbers.formatInteger(item.price * item.quantity, 3, 'COMMA')} + '원'"></del>
+                                            <div class="v-ll"></div>
+                                            <span th:text="${item.quantity} + '개'"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
+                    <h3 class="sectionTitle">주문정보</h3>
+                    <div class="sectionWrapper">
+                        <div class="section">
+                            <p>주문번호</p>
+                            <p th:text="${orderResult.orderCode}"></p>
+                        </div>
+                        <div class="section">
+                            <p>결제방법</p>
+                            <p th:text="${orderResult.payment}"></p>
+                        </div>
+                        <div class="section">
+                            <p>주문자</p>
+                            <p th:text="${orderResult.member.name}"></p>
+                        </div>
+                        <div class="section">
+                            <p>휴대폰</p>
+                            <p th:text="${orderResult.hp}"></p>
+                        </div>
+                    </div>
+                    <h3 class="sectionTitle">배송정보</h3>
+                    <div class="sectionWrapper">
+                        <div class="section">
+                            <p>수령자</p>
+                            <p th:text="${orderResult.receiver}"></p>
+                        </div>
+                        <div class="section">
+                            <p>연락처</p>
+                            <p th:text="${orderResult.hp}"></p>
+                        </div>
+                        <div class="section">
+                            <p>배송지 주소</p>
+                            <p th:text="${orderResult.addr}"></p>
+                        </div>
+                    </div>
+                    <h3 class="sectionTitle">결제정보</h3>
+                    <div class="sectionWrapper marginBottomZero">
+                        <div class="section5">
+                            <p>상품금액</p>
+                            <div>
+                                <p th:text="${#numbers.formatInteger(orderResult.finalPrice, 3, 'COMMA')}"></p>
+                                <p>&nbsp;원</p>
+                            </div>
+                        </div>
+                        <div class="section5">
+                            <p>쿠폰/포인트 할인</p>
+                            <div>
+                                <p th:text="${#numbers.formatInteger(couponPointDiscount, 3, 'COMMA')}"></p>
+                                <p>&nbsp;원</p>
+                            </div>
+                        </div>
+                        <div class="section5">
+                            <p>배송비</p>
+                            <div>
+                                <p th:text="${orderResult.fee}"></p>
+                                <p>&nbsp;원</p>
+                            </div>
+                        </div>
+                        <div class="section5">
+                            <p>총 주문금액</p>
+                            <div class="totalPrice">
+                                <p th:text="${#numbers.formatInteger(orderResult.actualMoney, 3, 'COMMA')}"></p>
+                                <p>&nbsp;원</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/common/_footer.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자-상점목록</title>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+    <!--Style-->
+    <link rel="stylesheet" href="/style/admin/header.css">
+    <link rel="stylesheet" href="/style/admin/shop/list.css"/>
+    <link rel="stylesheet" href="/style/admin/footer.css">
+    <link rel="stylesheet" href="/style/admin/adminaside.css">
+    <!--JavaScript-->
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/script/postcode.js"></script>
+    <script src="/script/banner.js"></script>
+    <script src="/script/aside.js"></script>
+    <script src="/script/shopValidation.js"></script>
+    <!--<script src="/script/status.js"></script>-->
+    <script src="/script/shopCheckbox.js"></script>
+</head>
+<body>
+<div id="container">
+    <th:block th:include="/admin/_adminHeader"/>
+    <main>
+        <th:block th:include="/admin/_adminAside"/>
+        <div class="adminMain">
+            <div class="mainTop">
+                <h4>상점목록</h4>
+                <div><span>HOME > 상점관리 > <p>상점목록</p></span></div>
+            </div>
+            <div class="shopArea">
+                <div class="searchArea">
+                    <form th:action="@{/admin/shop/list}" method="get">
+                    <select name="type">
+                        <option value="">선택</option>
+                        <option value="companyName" th:selected="${type== 'companyName'}">상호명</option>
+                        <option value="delegate" th:selected="${type == 'delegate'}">대표</option>
+                        <option value="businessNo" th:selected="${type== 'businessNo'}">사업자등록번호</option>
+                        <option value="hp" th:selected="${type== 'hp'}">연락처</option>
+                    </select>
+                    <input type="text" name="keyword" th:value="${keyword}" placeholder="검색어 입력">
+                    <button type="submit">검색</button>
+                    </form>
+                </div>
+                <div class="status-explain">
+                    <div class="dot-item"><div class="dot red"></div>운영 중지</div>
+                    <div class="dot-item"><div class="dot green"></div>운영중</div>
+                    <div class="dot-item"><div class="dot blue"></div>운영 준비</div>
+                </div>
+                <form action="/admin/shop/delete" id="deleteForm" method="post">
+                <table>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll"></th>
+                        <th>번호</th>
+                        <th>상호명</th>
+                        <th>대표</th>
+                        <th>사업자등록번호</th>
+                        <th>통신판매업번호</th>
+                        <th>연락처</th>
+                        <th>운영</th>
+                        <th>관리</th>
+                    </tr>
+                    <th:block th:each="seller, iterStat : ${sellers}">
+                    <tr>
+                        <td><input type="checkbox" name="sellerIds" class="shopCheckbox" th:value="${seller.sellerId}"></td>
+                        <td th:text="${iterStat.index + 1}"></td>
+                        <td th:text="${seller.companyName}"></td>
+                        <td th:text="${seller.delegate}"></td>
+                        <td th:text="${seller.businessNo}"></td>
+                        <td th:text="${seller.communicationNo}"></td>
+                        <td th:text="${seller.hp}"></td>
+                        <td class="shop-id" style="display: none" th:text="${seller.sellerId}"></td>
+                        <td>
+                            <div class="status-circle"
+                                 th:attr="data-status=${seller.status}"
+                                 th:style="'background-color:' + (${seller.status} == '운영중' ? 'green' : (${seller.status} == '운영중지' ? 'red' : 'blue'))">
+                            </div>
+                        </td>
+                        <td>
+                            <a th:href="@{/admin/shop/state(sellerId=${seller.sellerId},page=${currentPage}, type=${type}, keyword=${keyword})}" class="manageBtn"
+                                th:text="${seller.status == '운영중' ? '[중단]' : (seller.status == '운영중지' ? '[승인]' :'[재개]')}">
+                            </a>
+                        </td>
+                    </tr>
+                    </th:block>
+                </table>
+                        </form>
+                <div class="btnarea">
+                    <button type="submit" class="delbutton">선택삭제</button>
+                    <div class="pageBtn">
+                        <th:block th:if="${currentPage > 0}">
+                            <a th:href="@{'/admin/shop/list'(page=0)}"><img src="/images/back-double.png"></a>
+                            <a th:href="@{'/admin/shop/list'(page=${currentPage - 1})}"><img src="/images/back-single.png" class="single"></a>
+                        </th:block>
+
+                        <th:block th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                            <a th:href="@{'/admin/shop/list'(page=${i})}" th:text="${i + 1}"
+                               th:class="${i == currentPage} ? 'number active' : 'number'"></a>
+                        </th:block>
+
+                        <th:block th:if="${currentPage < totalPages - 1}">
+                            <a th:href="@{'/admin/shop/list'(page=${currentPage + 1})}"><img src="/images/right-single.png" class="single"></a>
+                            <a th:href="@{'/admin/shop/list'(page=${totalPages - 1})}"><img src="/images/right-double.png"></a>
+                        </th:block>
+                    </div>
+
+
+                    <button class="regbutton" type="submit">상점등록</button>
+                </div>
+            </div>
+        </div>
+        <div id="bannerModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>상점 등록</h3>
+                <form th:action="@{/admin/shop/list}" method="post">
+                    <div class="modalTable">
+                        <table class="fst">
+                            <tr>
+                                <th>아이디</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="sellerId" id="sellerId" placeholder="아이디 입력">
+                                        <p class="sIdMsg msgs"></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>비밀번호</th>
+                                <td>
+                                    <div>
+                                        <input type="password" name="password" id="sellerPw"  placeholder="비밀번호 입력">
+                                        <p class="sPwMsg msgs"></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>비밀번호 확인</th>
+                                <td>
+                                    <div><input type="password" name="password2" id="sellerPw2"  placeholder="비밀번호 재입력"></div>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="sec">
+                            <tr>
+                                <th>회사명</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="companyName" id="companyName" placeholder="회사명 입력 예) (주) 상호명">
+                                        <p class="sCompanyMsg msgs"></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>대표</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="delegate" id="delegate" placeholder="이름 입력">
+                                        <p class="sDelegateMsg msgs"></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사업자 등록번호</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="businessNo" id="businessNo" placeholder="사업자 등록번호 입력">
+                                        <p class="sBusinessMsg msgs"> </p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>통신 판매업 번호</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="communicationNo" id="communicationNo" placeholder="통신 판매업 번호 입력">
+                                        <p class="sCommunicationMsg msgs"></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>전화번호</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="hp" id="hp" placeholder="전화번호 입력">
+                                        <p class="sHpMsg msgs"></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>팩스</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="fax" id="fax" placeholder="팩스번호 입력">
+                                        <p class="sFaxMsg msgs"></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>주소</th>
+                                <td class="address">
+                                    <input type="text" id="sellerPostcode" name="zip"  placeholder="우편번호 검색 클릭" onclick="sellerDaumpostcode()"><br>
+                                    <input type="text" id="sellerAddress" name="addr1" placeholder="기본주소 검색"><br>
+                                    <input type="text" id="sellerAddress2" name="addr2" placeholder="상세주소 입력">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modalbtn">
+                        <button type="submit">등록하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/admin/_adminFooter.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

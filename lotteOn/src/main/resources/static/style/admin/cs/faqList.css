@@ -1,0 +1,456 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    font-size: 16px;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,
+li {
+    list-style: none;
+}
+button {
+    all: unset;
+    cursor: pointer;
+}
+img {
+    width: 25px;
+    height: 25px;
+}
+/* --------------------- main --------------------- */
+.adminMain {
+    width: 900px;
+    height: auto;
+    padding: 15px 0px 30px 0;
+}
+.mainTop {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #8a8a8a;
+    padding: 10px 0;
+}
+.mainTop h4 {
+    font-size: 25px;
+    font-weight: bold;
+}
+.mainTop div {
+    margin-left: auto;
+    display: flex;
+}
+.mainTop span {
+    display: flex;
+    gap: 5px;
+}
+.mainTop span p {
+    font-weight: bold;
+    margin: 0;
+}
+h3 {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+table {
+    width: 100%;
+    height: auto;
+    border-top: 2px solid #dddddd;
+    border-bottom: 2px solid #dddddd;
+    border-collapse: collapse;
+}
+table tr {
+    border-bottom: 2px solid #dddddd;
+}
+table tr th {
+    height: 45px;
+    background-color: #93b7d0;
+    color: white;
+    padding-left: 10px;
+}
+table tr th a {
+    color: white;
+}
+table tr td {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    height: 30px;
+    padding-left: 15px;
+}
+td.buttons {
+    width: 50px;
+    padding: 0;
+}
+.submitbtn {
+    white-space: nowrap;         /* 텍스트를 한 줄로 표시 */
+    overflow: hidden;            /* 넘치는 텍스트는 숨김 */
+    text-overflow: ellipsis;     /* 넘치는 텍스트가 있을 경우 '...'으로 표시 */
+    text-align: left;            /* 텍스트 왼쪽 정렬 */
+    width: 300px;
+    padding: 5px 0;
+}
+.modifybtn, .deletebtn {
+    vertical-align: middle;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    padding: 6px 12px;
+    height: auto;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+a.current {
+    border: 1px solid #dfdfdf;
+    width: 15px;
+    text-align: center;
+    margin: 5px;
+    padding: 10px;
+    background-color: #dfdfdf;
+}
+
+a.num {
+    border: 1px solid #dfdfdf;
+    width: 15px;
+    text-align: center;
+    margin: 5px;
+    padding: 10px;
+}
+.modalTable th {
+    padding-right: 10px;
+}
+.btnarea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btnarea button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+}
+.btnarea .delbutton {
+    background-color: #8a8a8a;
+}
+.btnarea .pageBtn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    top: 9px;
+    margin: 0 auto;
+}
+.btnarea .pageBtn .number {
+    font-size: 17px;
+    width: 24px;
+    height: 32px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+    top: 3px;
+}
+.btnarea .pageBtn .single {
+    width: 15px;
+    height: 15px;
+}
+.shopArea {
+    margin-top: 20px;
+}
+.shopArea button {
+    line-height: 10px;
+}
+.searchArea {
+    margin-bottom: 15px;
+}
+.searchArea select {
+    padding: 10px;
+}
+.searchArea input {
+    padding: 10px;
+}
+.searchArea button {
+    padding: 16px;
+    background-color: #3f97f6;
+    color: white;
+}
+tr td select {
+    font-size: 12px;
+}
+tr td select option {
+    font-size: 12px;
+}
+
+
+
+/* 모달 전체 화면 덮기 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* 모달 창 내부 */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 850px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* 닫기 버튼 */
+.modal .close {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.modal .modalbtn {
+    display: flex;
+    justify-content: flex-end;
+}
+.modal button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+.modal table {
+    margin-bottom: 20px;
+}
+.modal table th {
+    width: 90px;
+    height: 50px;
+}
+.modal table td {
+    font-size: 15px;
+    text-align: left;
+}
+.modal table td .status {
+    font-size: 16px;
+}
+.modal table tr td div select {
+    font-size: 16px;
+    width: 424px;
+    height: 43px;
+}
+.modal table tr td div option {
+    font-size: 16px;
+}
+
+
+
+
+/* 모달 전체 화면 덮기 */
+.submodal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* 모달 창 내부 */
+.submodal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 850px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* 닫기 버튼 */
+.submodal .close {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.submodal .modalbtn {
+    display: flex;
+    justify-content: center;
+}
+.submodal button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+.submodal table {
+    margin-bottom: 20px;
+}
+.submodal table th {
+    width: 90px;
+    height: 50px;
+}
+.submodal table td div {
+    text-align: left;
+    display: flex;
+}
+.submodal .fst {
+    margin-bottom: 20px;
+}
+.submodal table td input {
+    padding: 10px;
+}
+.submodal table td p {
+    position: relative;
+    top: 10px;
+    margin-left: 10px;
+}
+.submodal table td .status {
+    font-size: 16px;
+}
+.submodal table input {
+    width: 650px;
+    border-radius: 3px;
+    border: 1px solid #8a8a8a;
+    box-sizing: border-box;
+}
+.submodal table input[type="file"] {
+    width: 300px;
+    border: 1px solid #8a8a8a;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
+.submodal table tr td div select {
+    font-size: 16px;
+    width: 200px;
+    height: 43px;
+    margin-right: 7px;
+}
+.submodal table tr td div option {
+    font-size: 16px;
+}
+.writearea {
+    height: 300px;
+}
+
+
+
+/* 모달 전체 화면 덮기 */
+.regmodal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* 모달 창 내부 */
+.regmodal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 850px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* 닫기 버튼 */
+.regmodal .close {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.regmodal .modalbtn {
+    display: flex;
+    justify-content: center;
+}
+.regmodal button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+.regmodal table {
+    margin-bottom: 20px;
+}
+.regmodal table th {
+    width: 90px;
+    height: 50px;
+}
+.regmodal table td div {
+    text-align: left;
+    display: flex;
+}
+.regmodal .fst {
+    margin-bottom: 20px;
+}
+.regmodal table td input {
+    padding: 10px;
+}
+.regmodal table td p {
+    position: relative;
+    top: 10px;
+    margin-left: 10px;
+}
+.regmodal table td .status {
+    font-size: 16px;
+}
+.regmodal table input {
+    width: 650px;
+    border-radius: 3px;
+    border: 1px solid #8a8a8a;
+    box-sizing: border-box;
+}
+.regmodal table input[type="file"] {
+    width: 300px;
+    border: 1px solid #8a8a8a;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
+.regmodal table tr td div select {
+    font-size: 16px;
+    width: 200px;
+    height: 43px;
+    margin-right: 7px;
+}
+.regmodal table tr td div option {
+    font-size: 16px;
+}
+/* --------------------- main --------------------- */

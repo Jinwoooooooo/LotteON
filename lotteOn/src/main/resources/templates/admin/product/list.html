@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자-상품목록</title>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+    <!--Style-->
+    <link rel="stylesheet" href="/style/admin/product/list.css"/>
+    <link rel="stylesheet" href="/style/admin/header.css">
+    <link rel="stylesheet" href="/style/admin/footer.css">
+    <link rel="stylesheet" href="/style/admin/adminaside.css">
+    <!--JavaScript-->
+    <script src="/script/productList.js"></script>
+    <script src="/script/aside.js"></script>
+    <!--<script src="/script/productregister.js"></script>-->
+</head>
+<body>
+<div id="container">
+    <th:block th:include="/admin/_adminHeader"/>
+    <main>
+        <th:block th:include="/admin/_adminAside"/>
+        <div class="adminMain">
+            <div class="mainTop">
+                <h4>상품목록</h4>
+                <div><span>HOME > 상품관리 > <p>상품목록</p></span></div>
+            </div>
+            <div class="shopArea">
+                <form method="get" action="/admin/product/list">
+                <div class="searchArea">
+                    <select name="searchField">
+                        <option>선택</option>
+                        <option value="name">상품명</option>
+                        <option value="productCode">상품번호</option>
+                        <option value="companyName">판매자</option>
+                    </select>
+                    <input type="text" name="searchKeyword" placeholder="검색어 입력">
+                    <button type="submit" class="searchBtn">검색</button>
+                </div>
+                </form>
+                <table>
+                    <tr>
+                        <th><input type="checkbox" id="checkAll"></th>
+                        <th>사진</th>
+                        <th>상품코드</th>
+                        <th>상품명</th>
+                        <th>판매가격</th>
+                        <th>할인율</th>
+                        <th>포인트</th>
+                        <th>재고</th>
+                        <th>판매자</th>
+                        <th>조회</th>
+                        <th>관리</th>
+                    </tr>
+                    <tr th:each="product : ${products}">
+                        <td><input type="checkbox"></td>
+                        <td><img th:src="@{'/images/' + ${product.imageList}}"></td>
+                        <td th:text="${product.productCode}"></td>
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${#numbers.formatInteger(product.price, 1, 'COMMA')} + '원'"></td>
+                        <td th:text="${product.discount + '%'}"></td>
+                        <td th:text="${product.point + 'P'}"></td>
+                        <td th:text="${product.stock}"></td>
+                        <td th:text="${product.companyName}"></td>
+                        <td th:text="${product.views}"></td>
+                        <td>
+                            <button type="button" class="delete">[ 삭제 ]</button>
+                            <br>
+                            <button type="button" class="modbutton">[ 수정 ]</button>
+                        </td>
+                    </tr>
+                </table>
+                <div class="btnarea">
+                    <button class="delbutton" type="submit">선택삭제</button>
+
+                    <div class="pageBtn">
+                        <a th:if="${products.hasPrevious() and startPage > 0}"
+                           th:href="@{|/admin/product/list?page=${startPage - 1}&searchField=${searchField}&searchKeyword=${searchKeyword}|}">
+                            <img src="/images/back-double.png">
+                        </a>
+
+                        <a th:if="${products.hasPrevious()}"
+                           th:href="@{|/admin/product/list?page=${products.number - 1}&searchField=${searchField}&searchKeyword=${searchKeyword}|}">
+                            <img src="/images/back-single.png" class="single">
+                        </a>
+
+                        <!-- 10개 단위로 자른 페이징 번호 -->
+                        <a th:each="i : ${#numbers.sequence(startPage, endPage - 1)}"
+                           th:href="@{|/admin/product/list?page=${i}&searchField=${searchField}&searchKeyword=${searchKeyword}|}"
+                           th:text="${i + 1}"
+                           class="number"
+                           th:classappend="${i == products.number} ? 'active'"></a>
+
+                        <a th:if="${products.hasNext()}"
+                           th:href="@{|/admin/product/list?page=${products.number + 1}&searchField=${searchField}&searchKeyword=${searchKeyword}|}">
+                            <img src="/images/right-single.png" class="single">
+                        </a>
+
+                        <a th:if="${endPage < products.totalPages}"
+                           th:href="@{|/admin/product/list?page=${endPage}&searchField=${searchField}&searchKeyword=${searchKeyword}|}">
+                            <img src="/images/right-double.png">
+                        </a>
+                    </div>
+
+                    <button class="regbutton" type="button">상품등록</button>
+                </div>
+
+            </div>
+        </div>
+        <div id="bannerModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>상품 분류</h3>
+                <form th:action="@{/admin/product/register}" method="post" enctype="multipart/form-data">
+                    <div class="modalTable">
+                        <table class="fst">
+                            <tr>
+                                <th>1차 분류</th>
+                                <td>
+                                    <div>
+                                        <select id="category1">
+                                            <option value="">1차 분류 선택</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>2차 분류</th>
+                                <td>
+                                    <div>
+                                        <select id="category2" name="categoryId">
+                                            <option value="">2차 분류 선택</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <h3>기본 정보</h3>
+                        <table class="sec">
+                            <tr>
+                                <th>상품명</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="name" placeholder="상품명 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>기본설명</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="description" placeholder="기본설명 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>제조사</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="companyName" placeholder="제조사 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>상품 금액</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="price" placeholder="금액 입력">
+                                        <p>원</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>할인율</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="discount" placeholder="할인율 입력">
+                                        <p>%</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>포인트</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="point" placeholder="포인트 입력">
+                                        <p>P</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>재고수량</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="stock" placeholder="재고량 입력">
+                                        <p>개</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>배송비</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="deliveryFee" placeholder="배송비 입력">
+                                        <p>원</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>상품 이미지</th>
+                                <td>
+                                    <div>
+                                        <input type="file" name="imageListFile" placeholder="선택된 파일 없음">
+                                        <p>크기 190x190, 상품 목록에 출력 될 이미지 입니다.</p>
+                                    </div>
+                                    <div>
+                                        <input type="file" name="imageMainFile" placeholder="선택된 파일 없음">
+                                        <p>크기 230x230, 상품 메인에 출력 될 이미지 입니다.</p>
+                                    </div>
+                                    <div>
+                                        <input type="file" name="imageDetailFile" placeholder="선택된 파일 없음">
+                                        <p>크기 456x456, 상품 상세에 출력 될 이미지 입니다.</p>
+                                    </div>
+                                    <div>
+                                        <input type="file" name="imageInfoFile" placeholder="선택된 파일 없음">
+                                        <p>크기 가로 940px, 높이 제약없음, 크기 최대 1MB</p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <h3>상품 선택정보</h3>
+                        <table class="thd" id="optionTable">
+                            <tr>
+                                <th>옵션1</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="options[0].optionName" placeholder="옵션1 입력">
+                                    </div>
+                                </td>
+                                <th>옵션1 항목</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="options[0].optionValue" placeholder="옵션1 항목 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            </tr>
+                        </table>
+                        <div class="modalbtn">
+                            <button type="button" id="addOptionBtn">옵션 추가</button>
+                        </div>
+                        <h3>상품정보 제공고시</h3>
+                        <table class="fth">
+                            <tr>
+                                <th>상품상태</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="notice.prodStatus" placeholder="상품상태 입력" value="새 상품">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>부가세 면세여부</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="notice.vatYn" placeholder="부가세 면세여부 입력" value="과세상품">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>영수증 발행</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="notice.receiptYn" placeholder="영수증 발행 입력" value="발행가능 - 신용카드전표, 온라인현금영수증">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사업자 구분</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="notice.businessType" placeholder="사업자 구분 입력" value="사업자 판매자">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>원산지</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="notice.origin" placeholder="원산지 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modalbtn">
+                        <button type="submit">등록하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="subModal" class="submodal">
+            <div class="submodal-content">
+                <span class="close">&times;</span>
+                <h3>상품 분류</h3>
+                <form th:action="@{/admin/product/update}" method="post" enctype="multipart/form-data">
+                    <div class="modalTable">
+                        <table class="fst">
+                            <tr>
+                                <th>1차 분류</th>
+                                <td>
+                                    <div>
+                                        <select id="category3">
+                                            <option value="">1차 분류 선택</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>2차 분류</th>
+                                <td>
+                                    <div>
+                                        <select id="category4" name="categoryId">
+                                            <option value="">2차 분류 선택</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <h3>기본 정보</h3>
+                        <table class="sec">
+                            <tr>
+                                <input type="hidden" name="id" value="상품의 id">
+                                <th>상품명</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="name" placeholder="상품명 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>기본설명</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="description" placeholder="기본설명 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>제조사</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="companyName" placeholder="제조사 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>상품 금액</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="price" placeholder="금액 입력">
+                                        <p>원</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>할인율</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="discount" placeholder="할인율 입력">
+                                        <p>%</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>포인트</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="point" placeholder="포인트 입력">
+                                        <p>P</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>재고수량</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="stock" placeholder="재고량 입력">
+                                        <p>개</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>배송비</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="deliveryFee" placeholder="배송비 입력">
+                                        <p>원</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>상품 이미지</th>
+                                <td>
+                                    <div>
+                                        <input type="file" name="imageListFile" placeholder="선택된 파일 없음">
+                                        <p>크기 190x190, 상품 목록에 출력 될 이미지 입니다.</p>
+                                    </div>
+                                    <div>
+                                        <input type="file" name="imageMainFile" placeholder="선택된 파일 없음">
+                                        <p>크기 230x230, 상품 메인에 출력 될 이미지 입니다.</p>
+                                    </div>
+                                    <div>
+                                        <input type="file" name="imageDetailFile" placeholder="선택된 파일 없음">
+                                        <p>크기 456x456, 상품 상세에 출력 될 이미지 입니다.</p>
+                                    </div>
+                                    <div>
+                                        <input type="file" name="imageInfoFile" placeholder="선택된 파일 없음">
+                                        <p>크기 가로 940px, 높이 제약없음, 크기 최대 1MB</p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <h3>상품 선택정보</h3>
+                        <table class="thd" id="optionsecTable">
+                            <tr>
+                                <th>옵션1</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="options[0].optionName" placeholder="옵션1 입력">
+                                    </div>
+                                </td>
+                                <th>옵션1 항목</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="options[0].optionValue" placeholder="옵션1 항목 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            </tr>
+                        </table>
+                        <div class="modalbtn">
+                            <button type="button" id="addsecOptionBtn">옵션 추가</button>
+                        </div>
+                        <h3>상품정보 제공고시</h3>
+                        <table class="fth">
+                            <tr>
+                                <th>상품상태</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="notice.prodStatus" value="새 상품">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>부가세 면세여부</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="notice.vatYn" value="과세상품">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>영수증 발행</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="notice.receiptYn" value="발행가능 - 신용카드전표, 온라인 현금영수증">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사업자 구분</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="notice.businessType" value="사업자 판매자">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>원산지</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="notice.origin" value="원산지">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modalbtn">
+                        <button type="submit">수정하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/admin/_adminFooter.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

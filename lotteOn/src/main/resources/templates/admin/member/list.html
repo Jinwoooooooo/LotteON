@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자-회원목록</title>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+    <!-- Daum Address -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <!--Style-->
+    <link rel="stylesheet" href="/style/admin/member/list.css"/>
+    <link rel="stylesheet" href="/style/admin/header.css">
+    <link rel="stylesheet" href="/style/admin/footer.css">
+    <link rel="stylesheet" href="/style/admin/adminaside.css">
+    <!--JavaScript-->
+    <script src="/script/banner.js"></script>
+    <script src="/script/aside.js"></script>
+    <script src="/script/pickMember.js"></script>
+    <script src="/script/daumPostCode.js"></script>
+    <script src="/script/memberStatus.js"></script>
+</head>
+<body>
+<div id="container">
+    <th:block th:include="/admin/_adminHeader"/>
+    <main>
+        <th:block th:include="/admin/_adminAside"/>
+        <div class="adminMain">
+            <div class="mainTop">
+                <h4>회원목록</h4>
+                <div><span>HOME > 회원관리 > <p>회원목록</p></span></div>
+            </div>
+            <div class="shopArea">
+                <form th:action="@{/admin/member/search}" method="get" class="searchArea">
+                    <select name="type">
+                        <option value="" th:selected="${type} == null">선택</option>
+                        <option value="id" th:selected="${type} == 'id'">아이디</option>
+                        <option value="name" th:selected="${type} == 'name'">이름</option>
+                        <option value="email" th:selected="${type} == 'email'">이메일</option>
+                        <option value="hp" th:selected="${type} == 'hp'">휴대폰</option>
+                    </select>
+                    <input type="text" name="keyword" placeholder="검색어 입력" th:value="${keyword}">
+                    <button type="submit">검색</button>
+                </form>
+                <table>
+                    <tr>
+                        <th>번호</th>
+                        <th>아이디</th>
+                        <th>이름</th>
+                        <th>성별</th>
+                        <th>등급</th>
+                        <th>포인트</th>
+                        <th>이메일</th>
+                        <th>휴대폰</th>
+                        <th>가입일</th>
+                        <th>상태</th>
+                        <th>관리</th>
+                    </tr>
+                    <tr th:each="member, i : ${memberList}"
+                        th:attr="data-id=${member.id},
+                           data-name=${member.name},
+                           data-gender=${member.gender},
+                           data-rating=${member.rating},
+                           data-birthdate=${member.birthDate},
+                           data-email=${member.email},
+                           data-hp=${member.hp},
+                           data-status=${member.status},
+                           data-zip=${member.zip},
+                           data-addr1=${member.addr1},
+                           data-addr2=${member.addr2},
+                           data-another=${member.another},
+                           data-visitdate=${member.formattedVisitDate},
+                           data-regdate=${member.formattedRegDate}">
+                        <td th:text="${currentPage * 10 + i.index + 1}"></td>
+                        <td th:text="${member.id}" class="ellipsis"></td>
+                        <td th:text="${member.name}"></td>
+                        <td th:text="${member.gender}"></td>
+                        <td th:text="${member.rating}"></td>
+                        <td>15,000</td>
+                        <td th:text="${member.email}" class="ellipsis"></td>
+                        <td th:text="${member.hp}" class="ellipsis"></td>
+                        <td th:text="${member.formattedRegDate}"></td>
+                        <td th:text="${member.status}" class="memberStatus"></td>
+                        <td>
+                            <button type="submit" class="modify-btn">[ 수정 ]</button>
+                            <!-- 중지 상태일 때만 '재개' 버튼을 표시 -->
+                            <form th:action="@{/admin/member/reactivate/{id}(id=${member.id})}" method="post" th:if="${member.status == '중지'}">
+                                <button type="submit" class="resumeBtn" onclick="return confirm('다시 이 회원을 활성화하시겠습니까?')">[ 재개 ]</button>
+                            </form>
+
+                            <!-- 중지 상태일 때 '중지' 버튼 -->
+                            <form th:action="@{/admin/member/deactivate/{id}(id=${member.id})}" method="post" th:if="${member.status != '중지'}">
+                                <button type="submit" class="breakBtn" onclick="return confirm('정말로 이 회원을 중지하시겠습니까?')">[ 중지 ]</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+                <div class="btnarea">
+                    <div class="pageBtn">
+                        <!-- 맨 처음 페이지로 이동 -->
+                        <a th:href="@{/admin/member/list(page=0, size=10)}">
+                            <img src="/images/back-double.png">
+                        </a>
+
+                        <!-- 이전 페이지로 이동 -->
+                        <a th:href="@{/admin/member/list(page=${currentPage - 1}, size=10)}"
+                           th:if="${currentPage > 0}">
+                            <img src="/images/back-single.png" class="single">
+                        </a>
+                        <a th:if="${currentPage == 0}">
+                            <img src="/images/back-single.png" class="single" style="opacity: 0.3; cursor: default;">
+                        </a>
+
+                        <!-- 페이지 번호 반복 -->
+                        <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                            <a th:href="@{/admin/member/list(page=${i}, size=10)}"
+                               th:classappend="${i == currentPage} ? 'number active' : 'number'"
+                               th:text="${i + 1}"></a>
+                        </span>
+
+                        <!-- 다음 페이지로 이동 -->
+                        <a th:href="@{/admin/member/list(page=${currentPage + 1}, size=10)}"
+                           th:if="${currentPage < totalPages - 1}">
+                            <img src="/images/right-single.png" class="single">
+                        </a>
+                        <a th:if="${currentPage >= totalPages - 1}">
+                            <img src="/images/right-single.png" class="single" style="opacity: 0.3; cursor: default;">
+                        </a>
+
+                        <!-- 마지막 페이지로 이동 -->
+                        <a th:href="@{/admin/member/list(page=${totalPages - 1}, size=10)}">
+                            <img src="/images/right-double.png">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="bannerModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>회원 수정</h3>
+                <form th:action="@{/admin/member/modify}" method="post">
+                    <div class="modalTable">
+                        <table class="fst">
+                            <tr>
+                                <th>아이디</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="id" placeholder="아이디 입력" readonly>
+                                        <p>영문, 숫자 4 ~ 12 자 설정</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>이름</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="name" placeholder="이름 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>성별</th>
+                                <td>
+                                    <div>
+                                        <label><input type="radio" name="gender" value="남" class="gender">남</label>
+                                        <label><input type="radio" name="gender" value="여" class="gender">여</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>등급</th>
+                                <td>
+                                    <div>
+                                        <select name="rating">
+                                            <option value="FAMILY">FAMILY</option>
+                                            <option value="BRONZE">BRONZE</option>
+                                            <option value="SILVER">SILVER</option>
+                                            <option value="GOLD">GOLD</option>
+                                            <option value="VIP">VIP</option>
+                                            <option value="VVIP">VVIP</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>상태</th>
+                                <td>
+                                    <div class="memberStatus"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>생년월일</th>
+                                <td>
+                                    <div class="birthDate"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>이메일</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="email" placeholder="이메일 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>휴대폰</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="hp" placeholder="휴대전화 번호 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>주소</th>
+                                <td class="address">
+                                    <input type="text" name="zip" placeholder="우편번호 검색" id="postcode" onclick="DaumPostcode()" readonly><br>
+                                    <input type="text" name="addr1" placeholder="기본주소 검색" id="address" readonly><br>
+                                    <input type="text" name="addr2" placeholder="상세주소 입력" id="detailAddress">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>가입일</th>
+                                <td>
+                                    <div class="regDate"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>최근 로그인 날짜</th>
+                                <td>
+                                    <div class="visitDate"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>특이사항</th>
+                                <td class="another">
+                                    <div><input type="text" name="another" placeholder="회원 기타정보 입력"></div>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div class="modalbtn">
+                        <button type="submit">수정하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/admin/_adminFooter.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

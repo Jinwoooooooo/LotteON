@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객센터 메인</title>
+    <link rel="stylesheet" href="/style/common/_header.css">
+    <link rel="stylesheet" href="/style/common/_footer.css">
+    <link rel="stylesheet" href="/style/cust/cust_aside.css">
+    <link rel="stylesheet" href="/style/cust/cust_view.css">
+    <script src="/script/aside.js"></script>
+</head>
+<body>
+    <th:block th:include="~{/common/_header.html}"/>
+
+    <main>
+        <section class="content clearfix">
+            <th:block th:include="~{/cust/cust_aside.html}"/>
+    
+            <div class="main_content">
+                <h1>공지사항</h1>
+                <section class="main_notice">
+                    <h3 th:switch="${notice.cate}">
+                        <span th:case="'고객서비스'">고객서비스 안내</span>
+                        <span th:case="'안전거래'">안전거래 안내</span>
+                        <span th:case="'이벤트당첨'">이벤트당첨 안내</span>
+                        <span th:case="'위해상품'">위해상품 안내</span>
+                    </h3>
+                    <table>
+                        <tr>
+                            <td><input readonly name="cate" type="text" th:value="${notice.cate}"></td>
+                        </tr>
+                        <tr>
+                            <td><input readonly name="title" type="text" th:value="${notice.title}"></td>
+                        </tr>
+                        <tr>
+                            <td><input readonly name="regDate" type="text" th:value="${notice.regDate}"></td>
+                        </tr>
+                        <tr>
+                            <td><textarea readonly name="content" id="content">[[${notice.content}]]</textarea></td>
+                        </tr>
+                    </table>
+                    <div class="list_page">
+                        <a th:href="@{/cust/cust_notice_main}">목록</a>
+                    </div>
+                    
+                </section>
+            </div>
+        </section>
+        
+    </main>
+
+    <th:block th:replace="/common/_footer.html :: footerFragment(versionId=${selectedVersionId})"/>
+</body>
+
+</html>

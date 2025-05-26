@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    font-size: 16px;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,
+li {
+    list-style: none;
+}
+button {
+    all: unset;
+    cursor: pointer;
+}
+/* --------------------- main --------------------- */
+.adminMain {
+    width: 840px;
+    height: auto;
+    padding: 15px 60px 30px 0;
+}
+.mainTop {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #8a8a8a;
+    padding: 10px 0;
+}
+.mainTop h4 {
+    font-size: 25px;
+    font-weight: bold;
+}
+.mainTop > div {
+    margin-left: auto;
+    display: flex;
+}
+.mainTop span {
+    display: flex;
+    gap: 5px;
+}
+.mainTop span p {
+    font-weight: bold;
+    margin: 0;
+}
+h3 {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.categories {
+    padding: 20px;
+}
+.btnarea {
+    display: flex;
+    justify-content: flex-end;
+}
+.btnarea button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+}
+
+
+.category-list {
+    width: 300px;
+}
+.category-header {
+    background-color: #f9f9f9;
+    padding: 5px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+    height: auto;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+.subcategory {
+    padding-left: 20px;
+    display: none; /* 기본 숨김 */
+}
+.subcategory-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+    width: 400px;
+    height: 30px;
+    box-sizing: border-box;
+    align-items: center;
+    text-align: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding-left: 5px;
+}
+.delete-btn {
+    background-color: #E60012;
+    border: none;
+    color: white;
+    padding: 2px 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.add-subcategory {
+    margin-top: 5px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    width: 400px;
+    height: 30px;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    margin-left: 25px;
+    border-radius: 3px;
+    padding-left: 5px;
+
+}
+#addCategoryBtn {
+    margin-top: 5px;
+    background: #eee;
+    border: 1px solid #aaa;
+    width: 500px;
+    padding: 10px 15px;
+    cursor: pointer;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+.toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+input {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 480px;
+}
+.addbtn {
+    margin-bottom: 10px;
+}
+/* --------------------- main --------------------- */

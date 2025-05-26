@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자-자주묻는질문 목록</title>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+    <!--Style-->
+    <link rel="stylesheet" href="/style/admin/cs/faqList.css"/>
+    <link rel="stylesheet" href="/style/admin/header.css">
+    <link rel="stylesheet" href="/style/admin/footer.css">
+    <link rel="stylesheet" href="/style/admin/adminaside.css">
+    <!--JavaScript-->
+    <script src="/script/csFaq.js"></script>
+    <script src="/script/faq.js"></script>
+    <script src="/script/aside.js"></script>
+</head>
+<body>
+<div id="container">
+    <th:block th:insert="~{/admin/_adminHeader}"/>
+    <main>
+        <th:block th:insert="~{/admin/_adminAside}"/>
+        <div class="adminMain">
+            <div class="mainTop">
+                <h4>자주묻는질문</h4>
+                <div><span>HOME > 고객센터 > <p>자주묻는질문</p></span></div>
+            </div>
+            <div class="shopArea">
+                <div class="searchArea">
+                    <form th:action="@{/admin/cs/faqSearch}">
+                        <select name="cate1" class="typeSelect">
+                            <option value="">1차 유형</option>
+                            <option value="member">회원</option>
+                            <option value="event">쿠폰/혜택/이벤트</option>
+                            <option value="order">주문/결제</option>
+                            <option value="delivery">배송</option>
+                            <option value="cancel">취소/반품/교환</option>
+                            <option value="travel">여행/숙박/항공</option>
+                            <option value="safe">안전거래</option>
+                        </select>
+                        <select name="cate2" onchange="this.form.submit()" class="detailSelect">
+                            <option value="">2차 유형</option>
+                        </select>
+                    </form>
+                </div>
+                <table>
+                    <tr>
+                        <th>번호</th>
+                        <th>1차유형</th>
+                        <th>2차유형</th>
+                        <th>제목</th>
+                        <th>조회</th>
+                        <th>날짜</th>
+                        <th colspan="2" style="padding-left: 0">관리</th>
+                    </tr>
+                    <tr th:each="faq, i : ${page.dtoList}">
+                        <td>[[${page.startNo - i.index}]]</td>
+                        <td>[[${faq.cate1}]]</td>
+                        <td>[[${faq.cate2}]]</td>
+                        <td>
+                            <button type="submit"
+                                    class="submitbtn"
+                                    th:attr="data-type1=${faq.cate1},
+                                            data-type2=${faq.cate2},
+                                            data-title=${faq.title},
+                                            data-content=${faq.content},
+                                            data-faq-no=${faq.faqNo}">[[${faq.title}]]</button>
+                        </td>
+                        <td>[[${faq.views}]]</td>
+                        <td>[[${faq.regDate}]]</td>
+                        <td class="buttons">
+                            <button type="button" class="modifybtn"
+                                    th:attr="data-type1=${faq.cate1},
+                                            data-type2=${faq.cate2},
+                                            data-title=${faq.title},
+                                            data-content=${faq.content},
+                                            data-faq-no=${faq.faqNo}"> 수정
+                            </button>
+                        </td>
+                        <td class="buttons">
+                            <form th:action="@{/admin/cs/faqDelete}" method="post" onsubmit="return confirmDelete()">
+                                <button type="submit" class="deletebtn" style="font-size: 12px">삭제</button>
+                                <input type="hidden" name="faqNo" th:value="${faq.faqNo}">
+                            </form>
+                            <script>
+                                function confirmDelete() {
+                                    // 삭제 확인 메시지
+                                    return confirm("삭제하시겠습니까?");
+                                }
+                            </script>
+                        </td>
+                    </tr>
+                </table>
+                <div class="btnarea">
+                    <div class="pageBtn">
+                        <th:block th:if="${page.end > 0}">
+                            <th:block th:if="${page.prev}">
+                                <a th:href="@{/admin/cs/faqSearch(pg=${page.start-2}, cate1=${page.cate1}, cate2=${page.cate2})}" class="prev">
+                                    <img src="/images/back-double.png">
+                                </a>
+                            </th:block>
+                            <th:block th:if="${page.prev}">
+                                <a th:href="@{/admin/cs/faqSearch(pg=${page.start-1}, cate1=${page.cate1}, cate2=${page.cate2})}" class="prev">
+                                    <img src="/images/back-single.png" class="single">
+                                </a>
+                            </th:block>
+
+                            <th:block th:each="num:${#numbers.sequence(page.start, page.end)}">
+                                <a th:href="@{/admin/cs/faqSearch(pg=${num}, cate1=${page.cate1}, cate2=${page.cate2})}" th:class="${num == page.pg} ? 'current' : 'num'">[[${num}]]</a>
+                            </th:block>
+
+                            <th:block th:if="${page.next}">
+                                <a th:href="@{/admin/cs/faqSearch(pg=${page.end+1}, cate1=${page.cate1}, cate2=${page.cate2})}" class="next">
+                                    <img src="/images/right-single.png" class="single">
+                                </a>
+                            </th:block>
+                            <th:block th:if="${page.next}">
+                                <a th:href="@{/admin/cs/faqSearch(pg=${page.end+2}, cate1=${page.cate1}, cate2=${page.cate2})}" class="next">
+                                    <img src="/images/right-double.png">
+                                </a>
+                            </th:block>
+                        </th:block>
+                    </div>
+                    <button class="regbutton" type="submit">작성하기</button>
+                </div>
+            </div>
+        </div>
+        <div id="bannerModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>자주묻는질문 보기</h3>
+                <form>
+                    <div class="modalTable">
+                        <table class="fst">
+                            <tr>
+                                <th>1차 카테고리</th>
+                                <td id="modalType1">1차</td>
+                            </tr>
+                            <tr>
+                                <th>2차 카테고리</th>
+                                <td id="modalType2">2차</td>
+                            </tr>
+                            <tr>
+                                <th>제목</th>
+                                <td id="modalTitle">제목</td>
+                            </tr>
+                            <tr>
+                                <th>내용</th>
+                                <td id="modalContent">내용</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modalbtn">
+                        <button>목록</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="subModal" class="submodal">
+            <div class="submodal-content">
+                <span class="close">&times;</span>
+                <h3>자주묻는질문 작성</h3>
+                <form method="post" enctype="multipart/form-data" id="faqWriteForm">
+                    <input type="hidden" name="writer" th:value="${#authentication.principal.member.id}"/>
+                    <div class="modalTable">
+                        <table class="fst">
+                            <tr>
+                                <th>유형</th>
+                                <td>
+                                    <div>
+                                        <select name="cate1" class="typeSelect">
+                                            <option value="">1차 유형</option>
+                                            <option value="member">회원</option>
+                                            <option value="event">쿠폰/혜택/이벤트</option>
+                                            <option value="order">주문/결제</option>
+                                            <option value="delivery">배송</option>
+                                            <option value="cancel">취소/반품/교환</option>
+                                            <option value="travel">여행/숙박/항공</option>
+                                            <option value="safe">안전거래</option>
+                                        </select>
+                                        <select  name="cate2" class="detailSelect">
+                                            <option value="">2차 유형</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>제목</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="title" placeholder="제목 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>내용</th>
+                                <td>
+                                    <div>
+                                        <textarea name="content" placeholder="내용 입력" class="writearea" style="width: 650px;"></textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="modalbtn">
+                            <button>등록하기</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="regModal" class="regmodal">
+            <div class="regmodal-content">
+                <span class="close">&times;</span>
+                <h3>자주묻는질문 수정</h3>
+                <form method="post" th:action="@{/admin/cs/faqModify}" id="faqModifyForm">
+                    <div class="modalTable">
+                        <input type="hidden" id="faqNo" name="faqNo">
+                        <table class="fst">
+                            <tr>
+                                <th>유형</th>
+                                <td>
+                                    <div>
+                                        <select name="cate1" id="modifyCate1" class="typeSelect">
+                                            <option value="">1차 유형</option>
+                                            <option value="member">회원</option>
+                                            <option value="event">쿠폰/혜택/이벤트</option>
+                                            <option value="order">주문/결제</option>
+                                            <option value="delivery">배송</option>
+                                            <option value="cancel">취소/반품/교환</option>
+                                            <option value="travel">여행/숙박/항공</option>
+                                            <option value="safe">안전거래</option>
+                                        </select>
+                                        <select  name="cate2" id="modifyCate2" class="detailSelect">
+                                            <option value="">2차 유형</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>제목</th>
+                                <td>
+                                    <div>
+                                        <input type="text" name="title" id="modifyTitle" placeholder="제목 입력">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>내용</th>
+                                <td>
+                                    <div>
+                                        <textarea type="text" name="content" id="modifyContent" placeholder="내용 입력" class="writearea" style="width: 650px;"></textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="modalbtn">
+                            <button>수정하기</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="/admin/_adminFooter.html :: footerFragment(versionId=${selectedVersionId})"/>
+</div>
+</body>
+</html>

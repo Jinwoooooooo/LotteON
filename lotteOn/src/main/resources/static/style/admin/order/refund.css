@@ -1,0 +1,191 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    font-size: 16px;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,
+li {
+    list-style: none;
+}
+button {
+    all: unset;
+    cursor: pointer;
+}
+img {
+    width: 25px;
+    height: 25px;
+}
+/* --------------------- main --------------------- */
+
+.pageBtn {
+    display: flex;
+    justify-content: center;
+    column-gap: 3px;
+    margin-top: 50px;
+}
+
+.pageBtn > a {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+}
+
+.current {
+    background-color: #f7f7f7;
+    color: #333333;
+}
+
+.num {
+    color: #555;
+}
+button {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid #dfdfdf;
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.adminMain {
+    width: 100%;
+    height: auto;
+    padding: 15px 0px 30px 15px;
+}
+.mainTop {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #8a8a8a;
+    padding: 10px 0;
+}
+.mainTop h4 {
+    font-size: 25px;
+    font-weight: bold;
+}
+.mainTop div {
+    margin-left: auto;
+    display: flex;
+}
+.mainTop span {
+    display: flex;
+    gap: 5px;
+}
+.mainTop span p {
+    font-weight: bold;
+    margin: 0;
+}
+h3 {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+table {
+    width: 100%;
+    height: auto;
+    border-top: 2px solid #dddddd;
+    border-bottom: 2px solid #dddddd;
+    border-collapse: collapse;
+}
+table tr {
+    border-bottom: 2px solid #dddddd;
+}
+table tr th {
+    height: 45px;
+    background-color: #93b7d0;
+    color: white;
+}
+table tr th a {
+    color: white;
+}
+table tr td {
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    height: auto;
+}
+.btnarea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btnarea button {
+    width: 100px;
+    height: 50px;
+    background-color: #3f97f6;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+}
+.btnarea .delbutton {
+    background-color: #8a8a8a;
+}
+.btnarea .pageBtn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    top: 9px;
+}
+.btnarea .pageBtn .number {
+    font-size: 17px;
+    width: 24px;
+    height: 32px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+    top: 3px;
+}
+.btnarea .pageBtn .single {
+    width: 15px;
+    height: 15px;
+}
+.shopArea {
+    margin-top: 10px;
+}
+.shopArea button {
+    line-height: 10px;
+}
+.searchArea {
+    margin-bottom: 15px;
+}
+.searchArea select {
+    padding: 10px;
+}
+.searchArea input {
+    padding: 10px;
+}
+.searchArea button {
+    padding: 16px;
+    background-color: #3f97f6;
+    color: white;
+}
+tr td select {
+    font-size: 12px;
+}
+tr td select option {
+    font-size: 12px;
+}
+
+tr td:nth-of-type(7) {
+    width: 200px;
+    align-items: center;
+    overflow: hidden;
+    justify-content: center;
+}
+
+tr td:nth-of-type(9) {
+    align-items: center;
+}
+tr td:nth-of-type(9) > div {
+    justify-content: center;
+}
